@@ -1,8 +1,6 @@
 FROM centos:centos7
 MAINTAINER ome-devel@lists.openmicroscopy.org.uk
 
-ENV OMERO_VERSION 5.2.0
-
 RUN yum -y install epel-release && \
     curl -o /etc/yum.repos.d/zeroc-ice-el7.repo \
         http://download.zeroc.com/Ice/3.5/el7/zeroc-ice-el7.repo && \
@@ -15,17 +13,22 @@ RUN yum -y install epel-release && \
         postgresql && \
     yum clean all
 
-RUN pip install 'Django<1.9' omego
+RUN pip install omego
 
 RUN useradd omero && \
     mkdir /OMERO && \
     chown omero /OMERO
 
+ARG OMERO_VERSION=latest
+ARG CI_SERVER
+ARG OMEGO_ARGS
+
 USER omero
 WORKDIR /home/omero
-RUN omego download server --release $OMERO_VERSION && \
-    rm OMERO.server-*.zip && \
-    ln -s OMERO.server-*/ OMERO.server
+RUN bash -c 'CI=; if [ -n "$CI_SERVER" ]; then CI="--ci $CI_SERVER"; fi; \
+    omego download server $CI --release $OMERO_VERSION $OMEGO_ARGS && \
+        rm OMERO.server-*.zip && \
+        ln -s OMERO.server-*/ OMERO.server'
 
 # TODO: `Ice.Default.Host` breaks a multinode configuration, replace with
 # a different property name in templates and in `admin rewrite`
