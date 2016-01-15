@@ -19,7 +19,7 @@ elif [ "$TARGET" = master ]; then
     DBUSER=${DBUSER:-omero}
     DBNAME=${DBNAME:-omero}
     DBPASS=${DBPASS:-omero}
-    MASTER_IP=$(hostname -I)
+    MASTER_IP=$(hostname -i)
 
     export PGPASSWORD="$DBPASS"
 
@@ -63,10 +63,17 @@ elif [ "$TARGET" = master ]; then
     echo "Starting $TARGET"
     exec $omero admin start --foreground
 else
-    MASTER_IP=$MASTER_PORT_4061_TCP_ADDR
-    SLAVE_IP=$(hostname -I)
+    MASTER_ADDR=${MASTER_ADDR:-}
+    if [ -z "$MASTER_ADDR" ]; then
+        MASTER_ADDR=${MASTER_PORT_4061_TCP_ADDR:-}
+    fi
+    if [ -z "$MASTER_ADDR" ]; then
+        echo "ERROR: Master address not found"
+        exit 2
+    fi
+    SLAVE_ADDR=$(hostname -i)
 
-    $omero config set omero.master.host "$MASTER_IP"
+    $omero config set omero.master.host "$MASTER_ADDR"
 
     if stat -t /config/* > /dev/null 2>&1; then
         for f in /config/*; do
@@ -75,14 +82,14 @@ else
         done
     fi
 
-    echo "Master IP: $MASTER_IP Slave IP: $SLAVE_IP"
+    echo "Master addr: $MASTER_ADDR Slave addr: $SLAVE_ADDR"
     # TODO: `omero node start` doesn't rewrite the config
     $omero admin rewrite
-    sed -e "s/@omero.slave.host@/$SLAVE_IP/" -e "s/@slave.name@/$TARGET/" \
+    sed -e "s/@omero.slave.host@/$SLAVE_ADDR/" -e "s/@slave.name@/$TARGET/" \
         OMERO.server/etc/templates/slave.cfg > OMERO.server/etc/$TARGET.cfg
     grep '^Ice.Default.Router=' OMERO.server/etc/ice.config || \
         echo Ice.Default.Router= >> OMERO.server/etc/ice.config
-    sed -i -r "s|^(Ice.Default.Router=).*|\1OMERO.Glacier2/router:tcp -p 4063 -h $MASTER_IP|" \
+    sed -i -r "s|^(Ice.Default.Router=).*|\1OMERO.Glacier2/router:tcp -p 4063 -h $MASTER_ADDR|" \
         OMERO.server/etc/ice.config
 
     echo "Starting node $TARGET"
