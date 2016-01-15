@@ -15,7 +15,14 @@ elif [ "$TARGET" = master ]; then
     ./process_defaultxml.py OMERO.server/etc/templates/grid/default.xml.orig \
         $@ > OMERO.server/etc/templates/grid/default.xml
 
-    DBHOST=$DB_PORT_5432_TCP_ADDR
+    DBHOST=${DBHOST:-}
+    if [ -z "$DBHOST" ]; then
+        DBHOST=${DB_PORT_5432_TCP_ADDR:-}
+    fi
+    if [ -z "$DBHOST" ]; then
+        echo "ERROR: Postgres host address not found"
+        exit 2
+    fi
     DBUSER=${DBUSER:-omero}
     DBNAME=${DBNAME:-omero}
     DBPASS=${DBPASS:-omero}
@@ -25,7 +32,7 @@ elif [ "$TARGET" = master ]; then
 
     i=0
     while ! psql -h $DBHOST -U$DBUSER $DBNAME >/dev/null 2>&1 < /dev/null; do
-        i=`expr $i + 1`
+        i=$(($i+1))
         if [ $i -ge 50 ]; then
             echo "$(date) - postgres:5432 still not reachable, giving up"
             exit 1
