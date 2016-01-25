@@ -30,13 +30,6 @@ RUN bash -c 'CI=; if [ -n "$CI_SERVER" ]; then CI="--ci $CI_SERVER"; fi; \
         rm OMERO.server-*.zip && \
         ln -s OMERO.server-*/ OMERO.server'
 
-# TODO: `Ice.Default.Host` breaks a multinode configuration, replace with
-# a different property name in templates and in `admin rewrite`
-RUN sed -i s/Ice\.Default\.Host/omero.master.host/g \
-    OMERO.server/lib/python/omero/plugins/admin.py \
-    OMERO.server/etc/templates/*.cfg OMERO.server/etc/templates/*.config \
-    OMERO.server/etc/templates/grid/*.xml
-
 # default.xml may be modified at runtime for a multinode configuration
 RUN cp OMERO.server/etc/templates/grid/default.xml \
     OMERO.server/etc/templates/grid/default.xml.orig

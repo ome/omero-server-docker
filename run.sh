@@ -90,8 +90,6 @@ else
     fi
 
     echo "Master addr: $MASTER_ADDR Slave addr: $SLAVE_ADDR"
-    # TODO: `omero node start` doesn't rewrite the config
-    $omero admin rewrite
     sed -e "s/@omero.slave.host@/$SLAVE_ADDR/" -e "s/@slave.name@/$TARGET/" \
         OMERO.server/etc/templates/slave.cfg > OMERO.server/etc/$TARGET.cfg
     grep '^Ice.Default.Router=' OMERO.server/etc/ice.config || \
@@ -100,10 +98,5 @@ else
         OMERO.server/etc/ice.config
 
     echo "Starting node $TARGET"
-    # TODO: `omero node start` doesn't support --foreground
-    #exec $omero node $TARGET start
-    cd $OMERO_SERVER
-    mkdir -p var/log var/$TARGET
-    exec icegridnode --Ice.Config=$OMERO_SERVER/etc/internal.cfg,$OMERO_SERVER/etc/$TARGET.cfg \
-        --nochdir
+    exec $omero node $TARGET start --foreground
 fi
