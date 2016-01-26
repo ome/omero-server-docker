@@ -2,7 +2,7 @@
 
 set -eu
 
-TARGET=${1:-bash}
+TARGET=${1:-master}
 
 OMERO_SERVER=/home/omero/OMERO.server
 omero=$OMERO_SERVER/bin/omero
@@ -11,9 +11,16 @@ if [ "$TARGET" = bash ]; then
     echo "Entering a shell"
     exec bash -l
 elif [ "$TARGET" = master ]; then
-    shift
+    # Remaining args are the servers to run, default (no args) is to run all
+    # on master
+    if [ $# -gt 1 ]; then
+        shift
+        ARGS="$@"
+    else
+        ARGS=
+    fi
     ./process_defaultxml.py OMERO.server/etc/templates/grid/default.xml.orig \
-        $@ > OMERO.server/etc/templates/grid/default.xml
+        $ARGS > OMERO.server/etc/templates/grid/default.xml
 
     DBHOST=${DBHOST:-}
     if [ -z "$DBHOST" ]; then
