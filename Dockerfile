@@ -1,17 +1,19 @@
 FROM centos:centos7
 MAINTAINER ome-devel@lists.openmicroscopy.org.uk
 
+
 RUN yum -y install epel-release && \
-    curl -o /etc/yum.repos.d/zeroc-ice-el7.repo \
-        http://download.zeroc.com/Ice/3.5/el7/zeroc-ice-el7.repo && \
-    yum -y install \
-        unzip wget patch \
-        java-1.8.0-openjdk \
-        ice ice-python ice-servers \
-        python-pip \
-        numpy scipy python-matplotlib python-pillow python-tables \
-        postgresql && \
-    yum clean all
+    yum -y install ansible unzip
+
+ARG INFRASTRUCTURE_BRANCH=ansible-2.2
+RUN cd /opt && \
+    curl -L -o infrastructure.zip https://github.com/manics/infrastructure/archive/${INFRASTRUCTURE_BRANCH}.zip && \
+    unzip infrastructure.zip && \
+    rm infrastructure.zip
+ADD omero-grid-deps.yml /opt/infrastructure-${INFRASTRUCTURE_BRANCH}/ansible
+
+RUN cd /opt/infrastructure-${INFRASTRUCTURE_BRANCH}/ansible && \
+    ansible-playbook omero-grid-deps.yml
 
 RUN pip install omego
 
