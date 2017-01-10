@@ -1,7 +1,10 @@
 - hosts: localhost
   roles:
-  - role: omero-runtime
-  - role: postgresql
+  - role: openmicroscopy.basedeps
+  - role: openmicroscopy.java
+  - role: openmicroscopy.omero-python-deps
+  - role: openmicroscopy.ice
+  - role: openmicroscopy.postgresql
     postgresql_install_server: False
   vars:
   - ice_version: "3.6"

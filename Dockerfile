@@ -3,16 +3,12 @@ MAINTAINER ome-devel@lists.openmicroscopy.org.uk
 
 
 RUN yum -y install epel-release && \
-    yum -y install ansible git unzip
+    yum -y install ansible
 
-ARG INFRASTRUCTURE_BRANCH=master
-RUN cd /opt && \
-    curl -L -o infrastructure.zip https://github.com/openmicroscopy/infrastructure/archive/${INFRASTRUCTURE_BRANCH}.zip && \
-    unzip infrastructure.zip && \
-    rm infrastructure.zip
-ADD omero-grid-deps.yml /opt/infrastructure-${INFRASTRUCTURE_BRANCH}/ansible
+RUN mkdir /opt/infrastructure
+ADD omero-grid-deps.yml requirements.yml /opt/infrastructure/
 
-RUN cd /opt/infrastructure-${INFRASTRUCTURE_BRANCH}/ansible && \
+RUN cd /opt/infrastructure && \
     ansible-galaxy install -r requirements.yml && \
     ansible-playbook omero-grid-deps.yml
 
