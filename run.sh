@@ -33,6 +33,7 @@ elif [ "$TARGET" = master ]; then
     DBUSER=${DBUSER:-omero}
     DBNAME=${DBNAME:-omero}
     DBPASS=${DBPASS:-omero}
+    ROOTPASS=${ROOTPASS:-omero}
     MASTER_IP=$(hostname -i)
 
     export PGPASSWORD="$DBPASS"
@@ -58,7 +59,7 @@ elif [ "$TARGET" = master ]; then
         DBCMD=init
     }
     omego db $DBCMD --dbhost "$DBHOST" --dbuser "$DBUSER" --dbname "$DBNAME" \
-        --dbpass "$DBPASS" --serverdir=OMERO.server
+        --dbpass "$DBPASS" --rootpass "$ROOTPASS" --serverdir=OMERO.server
 
     $omero config set omero.db.host "$DBHOST"
     $omero config set omero.db.user "$DBUSER"
