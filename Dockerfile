@@ -25,7 +25,7 @@ RUN yum -y install epel-release \
 USER omero
 
 RUN bash -c 'CI=; if [ -n "$CI_SERVER" ]; then CI="--ci $CI_SERVER"; fi; \
-    omego download server $CI --release $OMERO_VERSION $OMEGO_ARGS' \
+             omego download server $CI --release $OMERO_VERSION $OMEGO_ARGS' \
     && rm OMERO.server-*.zip \
     && ln -s OMERO.server-*/ OMERO.server \
     # default.xml may be modified at runtime for a multinode configuration
