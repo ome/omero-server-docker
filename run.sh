@@ -24,11 +24,7 @@ elif [ "$TARGET" = master ]; then
 
     DBHOST=${DBHOST:-}
     if [ -z "$DBHOST" ]; then
-        DBHOST=${DB_PORT_5432_TCP_ADDR:-}
-    fi
-    if [ -z "$DBHOST" ]; then
-        echo "ERROR: Postgres host address not found"
-        exit 2
+        DBHOST=db
     fi
     DBUSER=${DBUSER:-omero}
     DBNAME=${DBNAME:-omero}
@@ -80,12 +76,9 @@ elif [ "$TARGET" = master ]; then
 else
     MASTER_ADDR=${MASTER_ADDR:-}
     if [ -z "$MASTER_ADDR" ]; then
-        MASTER_ADDR=${MASTER_PORT_4061_TCP_ADDR:-}
+        MASTER_ADDR=master
     fi
-    if [ -z "$MASTER_ADDR" ]; then
-        echo "ERROR: Master address not found"
-        exit 2
-    fi
+
     SLAVE_ADDR=$(hostname -i)
 
     $omero config set omero.master.host "$MASTER_ADDR"
