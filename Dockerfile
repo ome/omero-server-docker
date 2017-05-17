@@ -12,7 +12,6 @@ ADD omero-grid-deps.yml requirements.yml slave.cfg run.sh process_defaultxml.py 
 RUN yum -y install epel-release \
     && yum -y install ansible \
     && ansible-galaxy install -r requirements.yml \
-    && ansible-galaxy install -r requirements.yml \
     && ansible-playbook omero-grid-deps.yml \
     && pip install omego \
     && useradd omero \
