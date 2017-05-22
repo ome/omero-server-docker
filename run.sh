@@ -4,8 +4,9 @@ set -eu
 
 TARGET=${1:-master}
 
-OMERO_SERVER=/home/omero/OMERO.server
+OMERO_SERVER=/opt/omero/server/OMERO.server
 omero=$OMERO_SERVER/bin/omero
+cd /opt/omero/server
 
 if [ "$TARGET" = bash ]; then
     echo "Entering a shell"
@@ -54,7 +55,8 @@ elif [ "$TARGET" = master ]; then
         echo "Initialising database"
         DBCMD=init
     }
-    omego db $DBCMD --dbhost "$DBHOST" --dbuser "$DBUSER" --dbname "$DBNAME" \
+    /opt/omero/omego/bin/omego db $DBCMD \
+        --dbhost "$DBHOST" --dbuser "$DBUSER" --dbname "$DBNAME" \
         --dbpass "$DBPASS" --rootpass "$ROOTPASS" --serverdir=OMERO.server
 
     $omero config set omero.db.host "$DBHOST"
@@ -92,7 +94,7 @@ else
 
     echo "Master addr: $MASTER_ADDR Slave addr: $SLAVE_ADDR"
     sed -e "s/@omero.slave.host@/$SLAVE_ADDR/" -e "s/@slave.name@/$TARGET/" \
-        OMERO.server/etc/templates/slave.cfg > OMERO.server/etc/$TARGET.cfg
+        slave.cfg > OMERO.server/etc/$TARGET.cfg
     grep '^Ice.Default.Router=' OMERO.server/etc/ice.config || \
         echo Ice.Default.Router= >> OMERO.server/etc/ice.config
     sed -i -r "s|^(Ice.Default.Router=).*|\1OMERO.Glacier2/router:tcp -p 4063 -h $MASTER_ADDR|" \

@@ -1,35 +1,24 @@
 FROM centos:centos7
 MAINTAINER ome-devel@lists.openmicroscopy.org.uk
 
-ARG OMERO_VERSION=latest
-ARG CI_SERVER
-ARG OMEGO_ARGS
-
-WORKDIR /home/omero
-
-ADD omero-grid-deps.yml requirements.yml slave.cfg run.sh process_defaultxml.py /home/omero/
+RUN mkdir /opt/setup
+WORKDIR /opt/setup
+ADD playbook.yml requirements.yml /opt/setup/
 
 RUN yum -y install epel-release \
-    && yum -y install ansible \
-    && ansible-galaxy install -r requirements.yml \
-    && ansible-playbook omero-grid-deps.yml \
-    && pip install omego \
-    && useradd omero \
-    && chown omero:omero -R . \
-    # https://github.com/docker/docker/issues/2259#issuecomment-48286811
-    && mkdir /OMERO \
-    # Ensure /OMERO is owned by the omero user
-    && chown omero:omero -R /OMERO
+    && yum -y install ansible sudo \
+    && ansible-galaxy install -p /opt/setup/roles -r requirements.yml
 
-USER omero
+ARG OMERO_VERSION=latest
+RUN ansible-playbook playbook.yml -e omero_server_release=$OMERO_VERSION
 
-RUN bash -c 'CI=; if [ -n "$CI_SERVER" ]; then CI="--ci $CI_SERVER"; fi; \
-             omego download server $CI --release $OMERO_VERSION $OMEGO_ARGS' \
-    && rm OMERO.server-*.zip \
-    && ln -s OMERO.server-*/ OMERO.server \
-    # default.xml may be modified at runtime for a multinode configuration
-    && cp OMERO.server/etc/templates/grid/default.xml OMERO.server/etc/templates/grid/default.xml.orig
+USER omero-server
+
+# default.xml may be modified at runtime for a multinode configuration
+RUN cp /opt/omero/server/OMERO.server/etc/templates/grid/default.xml /opt/omero/server/OMERO.server/etc/templates/grid/default.xml.orig
 
 EXPOSE 4061 4063 4064
-VOLUME ["/OMERO", "/home/omero/OMERO.server/var"]
-ENTRYPOINT ["/home/omero/run.sh"]
+VOLUME ["/OMERO", "/opt/omero/server/OMERO.server/var"]
+
+ADD slave.cfg run.sh process_defaultxml.py /opt/omero/server/
+ENTRYPOINT ["/opt/omero/server/run.sh"]
