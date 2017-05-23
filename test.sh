@@ -9,7 +9,7 @@ IMAGE=omero-server:$PREFIX
 CLEAN=${CLEAN:-y}
 
 cleanup() {
-    docker rm -f -v $PREFIX-db $PREFIX-master $PREFIX-slave-1 $PREFIX-web
+    docker rm -f -v $PREFIX-db $PREFIX-master $PREFIX-slave-1
 }
 
 if [ "$CLEAN" = y ]; then
