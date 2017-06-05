@@ -11,7 +11,7 @@ OMERO=/opt/omero/server/OMERO.server/bin/omero
 
 # Wait up to 2 mins
 i=0
-while ! docker exec test-master $OMERO login -C -s localhost -u "$OMERO_USER" -q -w "$OMERO_PASS"; do
+while ! docker exec test-server $OMERO login -C -s localhost -u "$OMERO_USER" -q -w "$OMERO_PASS"; do
     i=$(($i+1))
     if [ $i -ge 24 ]; then
         echo "$(date) - OMERO.server still not reachable, giving up"
