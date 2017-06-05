@@ -17,7 +17,7 @@ RUN curl -L -o /usr/local/bin/dumb-init \
     chmod +x /usr/local/bin/dumb-init
 ADD run-exec.sh /usr/local/bin/
 ADD slave.cfg process_defaultxml.py /opt/omero/server/
-ADD run.sh /startup/
+ADD 50-config.py 99-run.sh /startup/
 
 USER omero-server
 
