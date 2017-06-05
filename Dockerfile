@@ -16,15 +16,11 @@ RUN curl -L -o /usr/local/bin/dumb-init \
     https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 && \
     chmod +x /usr/local/bin/dumb-init
 ADD run-exec.sh /usr/local/bin/
-ADD slave.cfg process_defaultxml.py /opt/omero/server/
-ADD 50-config.py 99-run.sh /startup/
+ADD 50-config.py 60-database.sh 99-run.sh /startup/
 
 USER omero-server
 
-# default.xml may be modified at runtime for a multinode configuration
-RUN cp /opt/omero/server/OMERO.server/etc/templates/grid/default.xml /opt/omero/server/OMERO.server/etc/templates/grid/default.xml.orig
-
-EXPOSE 4061 4063 4064
+EXPOSE 4063 4064
 VOLUME ["/OMERO", "/opt/omero/server/OMERO.server/var"]
 
 ENTRYPOINT ["/usr/local/bin/run-exec.sh"]
