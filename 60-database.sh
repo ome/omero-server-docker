@@ -4,6 +4,7 @@
 set -eu
 
 omero=/opt/omero/server/OMERO.server/bin/omero
+omego=/opt/omero/omego/bin/omego
 cd /opt/omero/server
 
 CONFIG_omero_db_host=${CONFIG_omero_db_host:-}
@@ -35,11 +36,8 @@ echo "postgres connection established"
 psql -w -h "$DBHOST" -U "$DBUSER" "$DBNAME" -c \
     "select * from dbpatch" 2> /dev/null && {
     echo "Upgrading database"
-    DBCMD=upgrade
+    $omego db upgrade --serverdir=OMERO.server
 } || {
     echo "Initialising database"
-    DBCMD=init
+    $omego db init --rootpass "$ROOTPASS" --serverdir=OMERO.server
 }
-/opt/omero/omego/bin/omego db $DBCMD \
-    --dbhost "$DBHOST" --dbuser "$DBUSER" --dbname "$DBNAME" \
-    --dbpass "$DBPASS" --rootpass "$ROOTPASS" --serverdir=OMERO.server
