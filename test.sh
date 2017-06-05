@@ -23,7 +23,9 @@ docker build -t $IMAGE  .
 docker run -d --name $PREFIX-db -e POSTGRES_PASSWORD=postgres postgres
 docker run -d --name $PREFIX-server --link $PREFIX-db:db \
     -p 4063:4063 -p 4064:4064 \
-    -e DBUSER=postgres -e DBPASS=postgres -e DBNAME=postgres \
+    -e CONFIG_omero_db_user=postgres \
+    -e CONFIG_omero_db_pass=postgres \
+    -e CONFIG_omero_db_name=postgres \
     -e ROOTPASS=omero-root-password \
     $IMAGE
 
