@@ -12,10 +12,12 @@ RUN yum -y install epel-release \
 ARG OMERO_VERSION=latest
 RUN ansible-playbook playbook.yml -e omero_server_release=$OMERO_VERSION
 
-RUN mkdir /startup
+RUN curl -L -o /usr/local/bin/dumb-init \
+    https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 && \
+    chmod +x /usr/local/bin/dumb-init
+ADD run-exec.sh /usr/local/bin/
 ADD slave.cfg process_defaultxml.py /opt/omero/server/
 ADD run.sh /startup/
-ADD run-exec.sh /
 
 USER omero-server
 
@@ -25,4 +27,4 @@ RUN cp /opt/omero/server/OMERO.server/etc/templates/grid/default.xml /opt/omero/
 EXPOSE 4061 4063 4064
 VOLUME ["/OMERO", "/opt/omero/server/OMERO.server/var"]
 
-ENTRYPOINT ["/run-exec.sh"]
+ENTRYPOINT ["/usr/local/bin/run-exec.sh"]
