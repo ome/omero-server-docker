@@ -1,7 +1,7 @@
 OMERO.server Docker
 ===================
 
-A CentOS 7 based Docker iamge for OMERO.server.
+A CentOS 7 based Docker image for OMERO.server.
 
 
 Running the images
@@ -18,7 +18,6 @@ Then run OMERO.server passing the the database configuration parameters if they 
         -e CONFIG_omero_db_pass=postgres \
         -e CONFIG_omero_db_name=postgres \
         -e ROOTPASS=omero-root-password \
-        -e DBUSER=postgres \
         -p 4063:4063 -p 4064:4064 \
         -e ROOTPASS=omero openmicroscopy/omero-server
 
@@ -26,7 +25,8 @@ Then run OMERO.server passing the the database configuration parameters if they 
 Configuration variables
 -----------------------
 
-All [OMERO configuration properties](www.openmicroscopy.org/site/support/omero/sysadmins/config.html) can be set be defining environment variables `CONFIG_omero_property_name=` where `.` is replaced by `_` and `_` by `__`, for example
+All [OMERO configuration properties](www.openmicroscopy.org/site/support/omero/sysadmins/config.html) can be set be defining environment variables `CONFIG_omero_property_name=`.
+Since `.` is not allowed in a variable name `.` must be replaced by `_`, and `_` by `__`, for example
 
     -e CONFIG_omero_web_public_enabled=false
 
@@ -34,7 +34,7 @@ All [OMERO configuration properties](www.openmicroscopy.org/site/support/omero/s
 Configuration files
 -------------------
 
-Additional configuration files for OMERO can be provided by mounting a directory `/config` inside any of the containers.
+Additional configuration files for OMERO can be provided by mounting a directory `/config`.
 Files will be loaded with `omero load`.
 For example:
 
@@ -47,7 +47,7 @@ Default volumes
 ---------------
 
 - `/opt/omero/server/OMERO.server/var`: The OMERO.server `var` directory, including logs
-- `/OMERO`: The OMERO data directory (`omero-grid` only)
+- `/OMERO`: The OMERO data directory
 
 
 Exposed ports
