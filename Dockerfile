@@ -15,7 +15,7 @@ RUN ansible-playbook playbook.yml -e omero_server_release=$OMERO_VERSION
 RUN curl -L -o /usr/local/bin/dumb-init \
     https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 && \
     chmod +x /usr/local/bin/dumb-init
-ADD run-exec.sh /usr/local/bin/
+ADD entrypoint.sh /usr/local/bin/
 ADD 50-config.py 60-database.sh 99-run.sh /startup/
 
 USER omero-server
@@ -23,4 +23,4 @@ USER omero-server
 EXPOSE 4063 4064
 VOLUME ["/OMERO", "/opt/omero/server/OMERO.server/var"]
 
-ENTRYPOINT ["/usr/local/bin/run-exec.sh"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
