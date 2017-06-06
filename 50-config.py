@@ -8,12 +8,13 @@ from subprocess import call
 from re import sub
 
 
+OMERO = '/opt/omero/server/OMERO.server/bin/omero'
+
 for (k, v) in os.environ.iteritems():
-    omero = '/opt/omero/server/OMERO.server/bin/omero'
     if k.startswith('CONFIG_'):
         prop = k[7:]
         prop = sub('([^_])_([^_])', r'\1.\2', prop)
         prop = sub('__', '_', prop)
         value = v
-        rc = call([omero, 'config', 'set', '--', prop, value])
+        rc = call([OMERO, 'config', 'set', '--', prop, value])
         assert rc == 0
