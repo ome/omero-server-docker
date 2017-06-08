@@ -11,7 +11,8 @@ To run the Docker images start a postgres DB:
 
     docker run -d --name postgres -e POSTGRES_PASSWORD=postgres postgres
 
-Then run OMERO.server passing the the database configuration parameters if they differ from the defaults:
+Then run OMERO.server passing the database configuration parameters if they differ from the defaults.
+This example uses the default `postgres` system database for convenience, in practice you may want to create your own database.
 
     docker run -d --name omero-server --link postgres:db
         -e CONFIG_omero_db_user=postgres \
@@ -19,7 +20,7 @@ Then run OMERO.server passing the the database configuration parameters if they 
         -e CONFIG_omero_db_name=postgres \
         -e ROOTPASS=omero-root-password \
         -p 4063:4063 -p 4064:4064 \
-        -e ROOTPASS=omero openmicroscopy/omero-server
+        openmicroscopy/omero-server
 
 
 Configuration variables
@@ -63,10 +64,11 @@ Example with named volumes
     docker volume create --name omero-db
     docker volume create --name omero-data
 
-    docker run -d --name postgres -e POSTGRES_PASSWORD=postgres \
+    docker run -d --name postgres -e POSTGRES_PASSWORD=postgres
         -v omero-db:/var/lib/postgresql/data postgres
     docker run -d --name omero-server --link postgres:db
-        -e CONFIG_omero_db_pass=dbpassword  -v omero-data:/OMERO \
+        <-e CONFIG_omero_db_ ...>
+        -v omero-data:/OMERO
         -p 4063:4063 -p 4064:4064 openmicroscopy/omero-server
 
 
