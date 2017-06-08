@@ -35,11 +35,13 @@ Since `.` is not allowed in a variable name `.` must be replaced by `_`, and `_`
 Configuration files
 -------------------
 
-Additional configuration files for OMERO can be provided by mounting a directory `/config`.
+Additional configuration files for OMERO can be provided by mounting files into `/opt/omero/server/config/`.
 Files will be loaded with `omero load`.
 For example:
 
-    docker run -d -v /config:/config:ro openmicroscopy/omero-server
+    docker run -d -v
+        /config/extra.omero:/opt/omero/server/config/extra.omero:ro
+        openmicroscopy/omero-server
 
 Parameters required for initialising the server such as database configuration *must* be set using environment variables.
 
