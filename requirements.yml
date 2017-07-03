@@ -4,10 +4,10 @@
   version: 1.0.0
 
 - src: openmicroscopy.ice
-  version: 2.0.0
+  version: 2.1.0
 
 - src: openmicroscopy.java
-  version: 2.0.0
+  version: 2.0.1
 
 - src: openmicroscopy.omego
   version: 0.1.0
@@ -18,9 +18,8 @@
 - src: openmicroscopy.omero-python-deps
   version: 1.1.0
 
-- name: openmicroscopy.omero-server
-#  version: 2.0.0-m1
-  src: https://github.com/manics/ansible-role-omero-server/archive/devel.tar.gz
+- src: openmicroscopy.omero-server
+  version: 2.0.0-m2
 
 - src: openmicroscopy.postgresql
   version: 2.0.0
