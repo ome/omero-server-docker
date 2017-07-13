@@ -43,7 +43,7 @@ For example:
         /config/extra.omero:/opt/omero/server/config/extra.omero:ro
         openmicroscopy/omero-server
 
-Parameters required for initialising the server such as database configuration *must* be set using environment variables.
+Parameters required for initializing the server such as database configuration *must* be set using environment variables.
 
 
 Default volumes
