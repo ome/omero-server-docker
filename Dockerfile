@@ -12,13 +12,15 @@ RUN yum -y install epel-release \
 ARG OMERO_VERSION=latest
 RUN ansible-playbook playbook.yml -e omero_server_release=$OMERO_VERSION
 
+RUN curl -L -o /usr/local/bin/dumb-init \
+    https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 && \
+    chmod +x /usr/local/bin/dumb-init
+ADD entrypoint.sh /usr/local/bin/
+ADD 50-config.py 60-database.sh 99-run.sh /startup/
+
 USER omero-server
 
-# default.xml may be modified at runtime for a multinode configuration
-RUN cp /opt/omero/server/OMERO.server/etc/templates/grid/default.xml /opt/omero/server/OMERO.server/etc/templates/grid/default.xml.orig
-
-EXPOSE 4061 4063 4064
+EXPOSE 4063 4064
 VOLUME ["/OMERO", "/opt/omero/server/OMERO.server/var"]
 
-ADD slave.cfg run.sh process_defaultxml.py /opt/omero/server/
-ENTRYPOINT ["/opt/omero/server/run.sh"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
