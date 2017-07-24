@@ -39,7 +39,12 @@ psql -w -h "$DBHOST" -U "$DBUSER" "$DBNAME" -c \
     "select * from dbpatch" 2> /dev/null && {
     echo "Upgrading database"
     $omego db upgrade --serverdir=OMERO.server
-} || {
-    echo "Initialising database"
-    $omego db init --rootpass "$ROOTPASS" --serverdir=OMERO.server
-}
+    } || {
+        if [ -f "/sql/db.sql" ]; then
+            echo "Restoring database"
+            $omego db init --omerosql "/sql/db.sql" --serverdir=OMERO.server
+        else
+            echo "Initialising database"
+            $omego db init --rootpass "$ROOTPASS" --serverdir=OMERO.server
+        fi
+    }
