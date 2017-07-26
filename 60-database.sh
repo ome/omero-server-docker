@@ -40,9 +40,9 @@ psql -w -h "$DBHOST" -U "$DBUSER" "$DBNAME" -c \
     echo "Upgrading database"
     $omego db upgrade --serverdir=OMERO.server
     } || {
-        if [ -f "/sql/db.sql" ]; then
+        if [ -f "/opt/omero/sql/db.sql" ]; then
             echo "Restoring database"
-            $omego db init --omerosql "/sql/db.sql" --serverdir=OMERO.server
+            $omego db init --omerosql "/opt/omero/sql/db.sql" --serverdir=OMERO.server
         else
             echo "Initialising database"
             $omego db init --rootpass "$ROOTPASS" --serverdir=OMERO.server
