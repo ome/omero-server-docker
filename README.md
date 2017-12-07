@@ -3,6 +3,7 @@ OMERO.server Docker
 
 A CentOS 7 based Docker image for OMERO.server.
 
+Also see [SUPPORT.md](./SUPPORT.md)
 
 Running the images
 ------------------
