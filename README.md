@@ -3,6 +3,7 @@ OMERO.server Docker
 
 A CentOS 7 based Docker image for OMERO.server.
 
+Also see [SUPPORT.md](./SUPPORT.md)
 
 Running the images
 ------------------
@@ -26,7 +27,7 @@ This example uses the default `postgres` system database for convenience, in pra
 Configuration variables
 -----------------------
 
-All [OMERO configuration properties](www.openmicroscopy.org/site/support/omero/sysadmins/config.html) can be set be defining environment variables `CONFIG_omero_property_name=`.
+All [OMERO configuration properties](https://docs.openmicroscopy.org/latest/omero/sysadmins/config.html) can be set be defining environment variables `CONFIG_omero_property_name=`.
 Since `.` is not allowed in a variable name `.` must be replaced by `_`, and `_` by `__`, for example
 
     -e CONFIG_omero_web_public_enabled=false
