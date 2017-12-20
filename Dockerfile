@@ -11,7 +11,10 @@ RUN yum -y install epel-release \
     && ansible-galaxy install -p /opt/setup/roles -r requirements.yml
 
 ARG OMERO_VERSION=latest
-RUN ansible-playbook playbook.yml -e omero_server_release=$OMERO_VERSION
+ARG OMEGO_ADDITIONAL_ARGS=
+RUN ansible-playbook playbook.yml \
+    -e omero_server_release=$OMERO_VERSION \
+    -e omero_server_omego_additional_args="$OMEGO_ADDITIONAL_ARGS"
 
 RUN curl -L -o /usr/local/bin/dumb-init \
     https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 && \
