@@ -9,11 +9,19 @@
 #   make VERSION=x.y.z BUILD=b
 #   git push origin x.y.z-b (or to snoopy for review)
 #
+# Build and release:
+#
+#   make VERSION=x.y.z REPO=snoopycrimecop
+#
 
 RELEASE = $(shell date)
 
-release:
+SHELL = bash
 
+REPO ?= openmicroscopy
+ORIGIN ?= origin
+
+release:
 ifndef VERSION
 	$(error VERSION is undefined)
 endif
@@ -28,3 +36,34 @@ else
 	git commit -a -m "Re-build $(BUILD) of OMERO_VERSION $(VERSION)"
 	git tag -s -m "Re-tag $(VERSION) with suffix $(BUILD)" $(VERSION)-$(BUILD)
 endif
+
+
+remote:
+ifndef VERSION
+	$(error VERSION is undefined)
+endif
+
+ifndef BUILD
+	git push $(ORIGIN) $(VERSION)
+else
+	git push $(ORIGIN) $(VERSION)-$(BUILD)
+endif
+
+
+build:
+ifndef VERSION
+	$(error VERSION is undefined)
+endif
+	docker build -t $(REPO)/omero-server:latest .
+	docker tag $(REPO)/omero-server:latest $(REPO)/omero-server:$(VERSION)
+	@MAJOR_MINOR=$(shell echo $(VERSION) | cut -f1-2 -d. );\
+	docker tag $(REPO)/omero-server:latest $(REPO)/omero-server:$$MAJOR_MINOR
+
+push:
+ifndef VERSION
+	$(error VERSION is undefined)
+endif
+	docker push $(REPO)/omero-server:latest
+	docker push $(REPO)/omero-server:$(VERSION)
+	@MAJOR_MINOR=$(shell echo $(VERSION) | cut -f1-2 -d. );\
+	docker push $(REPO)/omero-server:$$MAJOR_MINOR
