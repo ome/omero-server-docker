@@ -1,19 +1,3 @@
-#
-# Usage:
-#
-#   make VERSION=x.y.z
-#   git push origin x.y.z (or to snoopy for review)
-#
-# To trigger another build, use:
-#
-#   make VERSION=x.y.z BUILD=b
-#   git push origin x.y.z-b (or to snoopy for review)
-#
-# Build and release:
-#
-#   make VERSION=x.y.z REPO=snoopycrimecop
-#
-
 RELEASE = $(shell date)
 COMMIT = $(shell git rev-parse HEAD || echo -n NOTGIT)
 
@@ -22,7 +6,23 @@ SHELL = bash
 REPO ?= openmicroscopy
 ORIGIN ?= origin
 
-release:
+usage:
+	@echo "Usage:"
+	@echo " "
+	@echo "  make VERSION=x.y.z tag                            #   Update Dockerfile, commit and tag"
+	@echo "  make VERSION=x.y.z BUILD=1 tag                    #   Re-tag, e.g. when a new upstream is released"
+	@echo " "
+	@echo "  # Release Candidate"
+	@echo "  make VERSION=x.y.z ORIGIN=snoopycrimecop remote   #   Push to another git remote"
+	@echo "  make VERSION=x.y.z REPO=snoopycrimecop build      #   Build and tag images for another hub account"
+	@echo "  make VERSION=x.y.z REPO=snoopycrimecop push       #   Push images to another hub account"
+	@echo " "
+	@echo "  # Release"
+	@echo "  make VERSION=x.y.z remote                         #   Push to $(ORIGIN)"
+	@echo "  make VERSION=x.y.z build                          #   Build and tag images for $(REPO) hub repo"
+	@echo "  make VERSION=x.y.z push                           #   Push images to $(REPO) hub repo"
+
+tag:
 ifndef VERSION
 	$(error VERSION is undefined)
 endif
