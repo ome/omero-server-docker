@@ -9,21 +9,21 @@ ORIGIN ?= origin
 usage:
 	@echo "Usage:"
 	@echo " "
-	@echo "  make VERSION=x.y.z tag                            #   Update Dockerfile, commit and tag"
-	@echo "  make VERSION=x.y.z BUILD=1 tag                    #   Re-tag, e.g. when a new upstream is released"
+	@echo "  make VERSION=x.y.z git-tag                          #   Update Dockerfile, commit and tag"
+	@echo "  make VERSION=x.y.z BUILD=1 git-tag                  #   Re-tag, e.g. when a new upstream is released"
 	@echo " "
 	@echo "  # Release Candidate"
-	@echo "  make VERSION=x.y.z ORIGIN=snoopycrimecop remote   #   Push to another git remote"
-	@echo "  make VERSION=x.y.z REPO=snoopycrimecop build      #   Build and tag images for another hub account"
-	@echo "  make VERSION=x.y.z REPO=snoopycrimecop push       #   Push images to another hub account"
+	@echo "  make VERSION=x.y.z ORIGIN=snoopycrimecop git-push   #   Push to another git remote"
+	@echo "  make VERSION=x.y.z REPO=snoopycrimecop docker-build #   Build and tag images for another hub account"
+	@echo "  make VERSION=x.y.z REPO=snoopycrimecop docker-push  #   Push images to another hub account"
 	@echo " "
 	@echo "  # Release"
-	@echo "  make VERSION=x.y.z remote                         #   Push to $(ORIGIN)"
-	@echo "  make VERSION=x.y.z build                          #   Build and tag images for $(REPO) hub repo"
-	@echo "  make VERSION=x.y.z push                           #   Push images to $(REPO) hub repo"
+	@echo "  make VERSION=x.y.z git-push                         #   Push to $(ORIGIN)"
+	@echo "  make VERSION=x.y.z docker-build                     #   Build and tag images for $(REPO) hub repo"
+	@echo "  make VERSION=x.y.z docker-push                      #   Push images to $(REPO) hub repo"
 
 
-tag:
+git-tag:
 ifndef VERSION
 	$(error VERSION is undefined)
 endif
@@ -41,7 +41,7 @@ else
 endif
 
 
-remote:
+git-push:
 ifndef VERSION
 	$(error VERSION is undefined)
 endif
@@ -53,7 +53,7 @@ else
 endif
 
 
-build:
+docker-build:
 ifndef VERSION
 	$(error VERSION is undefined)
 endif
@@ -67,7 +67,7 @@ endif
 	docker tag $(REPO)/omero-server:latest $(REPO)/omero-server:$$MAJOR_MINOR
 
 
-push:
+docker-push:
 ifndef VERSION
 	$(error VERSION is undefined)
 endif
