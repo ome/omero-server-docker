@@ -1,6 +1,7 @@
 FROM centos:centos7
 MAINTAINER ome-devel@lists.openmicroscopy.org.uk
 LABEL org.openmicroscopy.release-date="unknown"
+LABEL org.openmicroscopy.commit="unknown"
 
 RUN mkdir /opt/setup
 WORKDIR /opt/setup
