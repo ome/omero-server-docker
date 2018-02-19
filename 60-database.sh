@@ -53,6 +53,8 @@ psql -w -h "$DBHOST" -U "$DBUSER" "$DBNAME" -c \
 } || {
     if [ "$DBNAME_src" = default ]; then
         $omero config set omero.db.name "$DBNAME"
+        # And set for restarts
+        echo config set omero.db.name \"$DBNAME\" > /opt/omero/server/config/60-database.omero
     fi
     echo "Initialising database"
     $omego db init --rootpass "$ROOTPASS" --serverdir=OMERO.server
