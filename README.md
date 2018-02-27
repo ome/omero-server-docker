@@ -37,7 +37,8 @@ Configuration files
 -------------------
 
 Additional configuration files for OMERO can be provided by mounting files into `/opt/omero/server/config/`.
-Files will be loaded with `omero load`.
+Files ending with `.omero` will be loaded with `omero load`.
+
 For example:
 
     docker run -d -v
