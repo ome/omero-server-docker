@@ -1,7 +1,7 @@
 FROM centos:centos7
 MAINTAINER ome-devel@lists.openmicroscopy.org.uk
-LABEL org.openmicroscopy.release-date="unknown"
-LABEL org.openmicroscopy.commit="unknown"
+LABEL org.openmicroscopy.release-date="Thu 24 Jan 2019 16:46:33 GMT"
+LABEL org.openmicroscopy.commit="671a76480611d6cbb18bab32e53a774443638ea7"
 
 RUN mkdir /opt/setup
 WORKDIR /opt/setup
@@ -11,7 +11,7 @@ RUN yum -y install epel-release \
     && yum -y install ansible sudo \
     && ansible-galaxy install -p /opt/setup/roles -r requirements.yml
 
-ARG OMERO_VERSION=latest
+ARG OMERO_VERSION=5.4.10
 ARG OMEGO_ADDITIONAL_ARGS=
 RUN ansible-playbook playbook.yml \
     -e omero_server_release=$OMERO_VERSION \
