@@ -1,0 +1,38 @@
+version: "3"
+#
+# Compose for the development of this docker image
+#
+services:
+  database:
+    image: "postgres:9.6"
+    environment:
+      - POSTGRES_USER=omero
+      - POSTGRES_DB=omero
+      - POSTGRES_PASSWORD=omero
+    networks:
+      - omero
+    volumes:
+      - "database:/var/lib/postgresql/data"
+
+  omero:
+    build: .
+    environment:
+      - CONFIG_omero_db_host=database
+      - CONFIG_omero_db_user=omero
+      - CONFIG_omero_db_pass=omero
+      - CONFIG_omero_db_name=omero
+      - ROOTPASS=omero
+    networks:
+      - omero
+    ports:
+      - "4063:4063"
+      - "4064:4064"
+    volumes:
+      - "omero:/OMERO"
+
+networks:
+  omero:
+
+volumes:
+  database:
+  omero:
