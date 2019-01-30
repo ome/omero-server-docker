@@ -1,0 +1,33 @@
+#!/usr/bin/env python
+
+import atexit
+import os
+import socket
+import sys
+import time
+
+
+OMERO_DIST = os.environ.get("OMERO_DIST", "/opt/omero/server/OMERO.server")
+if not os.path.exists(OMERO_DIST):
+	OMERO_DIST = "/opt/omero/web/OMERO.web"
+
+sys.path.append("/".join([OMERO_DIST, "lib/python"]))
+import omero
+from omero.cli import cli_login
+from omero.util.import_candidates import as_dictionary
+
+
+OMERO_HOST = os.environ.get("OMERO_HOST", "localhost")
+OMERO_USER = os.environ.get("OMERO_USER", "root")
+OMERO_PASS = os.environ.get("OMERO_PASS", "omero")
+OMERO_PORT = int(os.environ.get("OMERO_PORT", "4064"))
+SLEEP_TIME = int(os.environ.get("SLEEP_TIME", "30"))
+
+
+with cli_login("-s", OMERO_HOST,
+               "-u", OMERO_USER,
+               "-p", str(OMERO_PORT),
+               "-w", OMERO_PASS) as cli:
+
+    for k, v in as_dictionary(("/import",)).items():
+        cli.onecmd(["import", k])
