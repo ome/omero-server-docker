@@ -8,3 +8,33 @@
     omero_server_database_manage: False
     omero_server_systemd_setup: False
     omero_server_system_uid: 1000
+
+  # TODO: copied from https://github.com/openmicroscopy/prod-playbooks/blob/bd5b837c740ae79806d911893ace38701c204381/ome-dundeeomero.yml
+  # Should be part of a figure-server role
+  tasks:
+    - name: OMERO.figure server-side prerequisites, script prerequisites + web server for decoupled OMERO.web
+      become: yes
+      yum:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - python-reportlab
+        - python-markdown
+
+    - name: Create a figure scripts directory
+      become: yes
+      file:
+        path: /opt/omero/server/OMERO.server/lib/scripts/omero/figure_scripts
+        state: directory
+        mode: 0755
+        recurse: yes
+        owner: root
+
+    - name: Download the Figure_To_Pdf.py script
+      become: yes
+      get_url:
+        url: https://raw.githubusercontent.com/ome/omero-figure/{{ omero_figure_tag | default("master") }}/omero_figure/scripts/omero/figure_scripts/Figure_To_Pdf.py
+        dest: /opt/omero/server/OMERO.server/lib/scripts/omero/figure_scripts/Figure_To_Pdf.py
+        mode: 0644
+        owner: root
+        checksum: "{{ omero_figure_pdfscript_checksum | default(omit) }}"
