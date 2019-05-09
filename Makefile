@@ -1,4 +1,4 @@
-RELEASE = $(shell date)
+RELEASE = $(shell date -u +%Y-%m-%dT%H:%M:%SZ)
 COMMIT = $(shell git rev-parse HEAD || echo -n NOTGIT)
 
 SHELL = bash
@@ -29,8 +29,8 @@ ifndef VERSION
 endif
 
 	perl -i -pe 's/OMERO_VERSION=(\S+)/OMERO_VERSION=$(VERSION)/' Dockerfile
-	perl -i -pe 's/(org.openmicroscopy.release-date=)"([^"]+)"/$$1"$(RELEASE)"/' Dockerfile
-	perl -i -pe 's/(org.openmicroscopy.commit=)"([^"]+)"/$$1"$(COMMIT)"/' Dockerfile
+	perl -i -pe 's/(org.opencontainers.image.created=)"([^"]+)"/$$1"$(RELEASE)"/' Dockerfile
+	perl -i -pe 's/(org.opencontainers.image.revision=)"([^"]+)"/$$1"$(COMMIT)"/' Dockerfile
 
 ifndef BUILD
 	git commit -a -m "Bump OMERO_VERSION to $(VERSION)"
