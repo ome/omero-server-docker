@@ -1,4 +1,4 @@
-version: "3"
+version: "3.3"
 #
 # Compose for the development of this docker image
 #
@@ -15,7 +15,12 @@ services:
       - "database:/var/lib/postgresql/data"
 
   omero:
-    build: .
+    image: ${REPO}/omero-server:${PREFIX}
+    build:
+      context: .
+      args:
+        - OMEGO_ADDITIONAL_ARGS="--ci=https://merge-ci.openmicroscopy.org/jenkins/"
+        - OMERO_VERSION="OMERO-build"
     environment:
       - CONFIG_omero_db_host=database
       - CONFIG_omero_db_user=omero
@@ -25,10 +30,11 @@ services:
     networks:
       - omero
     ports:
-      - "4063:4063"
-      - "4064:4064"
+      - "${TCP_PORT}4063"
+      - "${SSL_PORT}4064"
     volumes:
       - "omero:/OMERO"
+      - "./:/src:ro"
 
 networks:
   omero:
