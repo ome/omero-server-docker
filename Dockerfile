@@ -1,7 +1,10 @@
 FROM centos:centos7
-MAINTAINER ome-devel@lists.openmicroscopy.org.uk
-LABEL org.openmicroscopy.release-date="unknown"
-LABEL org.openmicroscopy.commit="unknown"
+ARG CREATED=unknown
+ARG REVISION=unknown
+LABEL maintainer="ome-devel@lists.openmicroscopy.org.uk"
+LABEL org.opencontainers.image.created="${CREATED}"
+LABEL org.opencontainers.image.revision="${REVISION}"
+LABEL org.opencontainers.image.source="https://github.com/ome/omero-server-docker"
 
 RUN mkdir /opt/setup
 WORKDIR /opt/setup
@@ -22,8 +25,6 @@ RUN curl -L -o /usr/local/bin/dumb-init \
     chmod +x /usr/local/bin/dumb-init
 ADD entrypoint.sh /usr/local/bin/
 ADD 50-config.py 60-database.sh 99-run.sh /startup/
-ADD wait-on-login import-all /tools/
-RUN mkdir /import && touch /import/test.fake
 
 USER omero-server
 

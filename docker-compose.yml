@@ -14,13 +14,21 @@ services:
     volumes:
       - "database:/var/lib/postgresql/data"
 
-  omero:
-    image: ${REPO}/omero-server:${PREFIX}
+  minimal:
+    image: ${REPO}/omero-server-minimal:${PREFIX}
     build:
       context: .
       args:
         - OMEGO_ADDITIONAL_ARGS="--ci=https://merge-ci.openmicroscopy.org/jenkins/"
         - OMERO_VERSION="OMERO-build"
+    entrypoint: "true"
+
+  omero:
+    image: ${REPO}/omero-server:${PREFIX}
+    build:
+      context: extended
+      args:
+        - PARENT_IMAGE=${REPO}/omero-server-minimal:${PREFIX}
     environment:
       - CONFIG_omero_db_host=database
       - CONFIG_omero_db_user=omero
@@ -35,6 +43,8 @@ services:
     volumes:
       - "omero:/OMERO"
       - "./:/src:ro"
+    depends_on:
+      - minimal
 
 networks:
   omero:
