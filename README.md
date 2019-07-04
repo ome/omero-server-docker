@@ -5,8 +5,15 @@ A CentOS 7 based Docker image for OMERO.server.
 
 Also see [SUPPORT.md](./SUPPORT.md)
 
-Running the images
-------------------
+Running OMERO with docker-compose
+---------------------------------
+
+The [omero-deployment-examples repository](https://github.com/ome/omero-deployment-examples/)
+contains a number of different ways of deployment OMERO. Unless you are looking for something
+specific, *we suggest starting with [docker-example-omero](https://github.com/ome/docker-example-omero).*
+
+Running the images (manual)
+---------------------------
 
 To run the Docker images start a postgres DB:
 
