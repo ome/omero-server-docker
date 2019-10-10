@@ -1,8 +1,10 @@
 FROM centos:centos7
+ARG CREATED=unknown
+ARG REVISION=unknown
 LABEL maintainer="ome-devel@lists.openmicroscopy.org.uk"
-LABEL org.opencontainers.image.created="unknown"
-LABEL org.opencontainers.image.revision="unknown"
-LABEL org.opencontainers.image.source="https://github.com/openmicroscopy/omero-server-docker"
+LABEL org.opencontainers.image.created="${CREATED}"
+LABEL org.opencontainers.image.revision="${REVISION}"
+LABEL org.opencontainers.image.source="https://github.com/ome/omero-server-docker"
 
 RUN mkdir /opt/setup
 WORKDIR /opt/setup
