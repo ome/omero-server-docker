@@ -9,7 +9,7 @@ WORKDIR /opt/setup
 ADD playbook.yml requirements.yml /opt/setup/
 
 RUN yum -y install epel-release \
-    && yum -y install ansible sudo \
+    && yum -y install ansible sudo git \
     && ansible-galaxy install -p /opt/setup/roles -r requirements.yml
 
 ARG OMERO_VERSION=latest
@@ -25,11 +25,6 @@ ADD entrypoint.sh /usr/local/bin/
 ADD 50-config.py 60-database.sh 99-run.sh /startup/
 
 USER omero-server
-
-# Fixed in 5.5.0 https://github.com/openmicroscopy/openmicroscopy/pull/5949
-RUN sed -i.bak -re \
-    's/(name="omero.fs.importArgs"\s+value=)""/\1"--no-upgrade-check"/' \
-    /opt/omero/server/OMERO.server/etc/templates/grid/templates.xml
 EXPOSE 4063 4064
 VOLUME ["/OMERO", "/opt/omero/server/OMERO.server/var"]
 

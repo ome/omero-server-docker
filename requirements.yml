@@ -4,13 +4,14 @@
   version: 1.1.0
 
 - src: ome.ice
-  version: 3.0.0
+  version: 3.1.0
 
 - src: ome.java
   version: 2.0.3
 
-- src: ome.omego
-  version: 0.1.3
+- name: ome.omego
+  src: https://github.com/joshmoore/ansible-role-omego
+  version: origin/add-future
 
 - src: ome.omero_common
   version: 0.3.2
@@ -18,8 +19,9 @@
 - src: ome.omero_python_deps
   version: 2.0.1
 
-- src: ome.omero_server
-  version: 2.1.0
+- name: ome.omero_server
+  src: https://github.com/ome/ansible-role-omero-server/archive/06bd02493b0afd5ee2c74f773fbb08b550ed82a2.tar.gz
+  version: 06bd02493b0afd5ee2c74f773fbb08b550ed82a2
 
 - src: ome.postgresql
   version: 3.3.1
