@@ -1,25 +1,25 @@
 # External Ansible roles required by this repository
 
-- src: openmicroscopy.basedeps
-  version: 1.0.0
-
-- src: openmicroscopy.ice
-  version: 2.1.1
-
-- src: openmicroscopy.java
-  version: 2.0.1
-
-- src: openmicroscopy.omego
-  version: 0.1.1
-
-- src: openmicroscopy.omero-common
-  version: 0.1.0
-
-- src: openmicroscopy.omero-python-deps
+- src: ome.basedeps
   version: 1.1.0
 
-- src: openmicroscopy.omero-server
+- src: ome.ice
+  version: 3.0.0
+
+- src: ome.java
+  version: 2.0.3
+
+- src: ome.omego
+  version: 0.1.3
+
+- src: ome.omero_common
+  version: 0.3.2
+
+- src: ome.omero_python_deps
   version: 2.0.1
 
-- src: openmicroscopy.postgresql
-  version: 3.0.1
+- src: ome.omero_server
+  version: 2.1.0
+
+- src: ome.postgresql
+  version: 3.3.1
