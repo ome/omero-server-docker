@@ -1,6 +1,6 @@
 - hosts: localhost
   roles:
-  - role: openmicroscopy.omero-server
+  - role: ome.omero_server
   vars:
     ice_version: "3.6"
     ice_install_devel: False
