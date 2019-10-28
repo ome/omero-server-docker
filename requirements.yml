@@ -19,7 +19,7 @@
   version: 1.1.0
 
 - src: openmicroscopy.omero-server
-  version: 2.0.1
+  version: 2.1.0
 
 - src: openmicroscopy.postgresql
   version: 3.0.1
