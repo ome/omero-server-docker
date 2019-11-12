@@ -9,6 +9,7 @@ set -x
 
 OMERO=/opt/omero/server/OMERO.server/bin/omero
 FILENAME=$(date +%Y%m%d-%H%M%S-%N).fake
+SERVER=$(docker port $PREFIX-server 4064)
 docker exec $PREFIX-server sh -c \
     "mkdir -p /OMERO/DropBox/root && touch /OMERO/DropBox/root/$FILENAME"
 
@@ -18,7 +19,7 @@ i=0
 result=
 while [ $i -lt 60 ]; do
     sleep 4
-    result=$(docker exec $PREFIX-server $OMERO hql -q -s localhost -u $OMERO_USER -w $OMERO_PASS "SELECT COUNT (*) FROM Image WHERE name='$FILENAME'" --style plain)
+    result=$(docker exec $PREFIX-server $OMERO hql -q -s $SERVER -u $OMERO_USER -w $OMERO_PASS "SELECT COUNT (*) FROM Image WHERE name='$FILENAME'" --style plain)
     if [ "$result" = "0,1" ]; then
         echo
         echo "Found image: $result"
