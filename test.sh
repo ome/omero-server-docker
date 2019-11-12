@@ -9,6 +9,7 @@ IMAGE=omero-server:$PREFIX
 CLEAN=${CLEAN:-y}
 
 cleanup() {
+    docker logs $PREFIX-server
     docker rm -f -v $PREFIX-db $PREFIX-server
 }
 

@@ -12,8 +12,8 @@ RUN yum -y install epel-release \
     && yum -y install ansible sudo git \
     && ansible-galaxy install -p /opt/setup/roles -r requirements.yml
 
-ARG OMERO_VERSION=latest
-ARG OMEGO_ADDITIONAL_ARGS=
+ARG OMERO_VERSION=OMERO-build
+ARG OMEGO_ADDITIONAL_ARGS="--ci=https://merge-ci.openmicroscopy.org/jenkins/"
 RUN ansible-playbook playbook.yml \
     -e omero_server_release=$OMERO_VERSION \
     -e omero_server_omego_additional_args="$OMEGO_ADDITIONAL_ARGS"
