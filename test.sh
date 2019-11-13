@@ -23,7 +23,7 @@ cleanup || true
 docker build -t $IMAGE  .
 docker run -d --name $PREFIX-db -e POSTGRES_PASSWORD=postgres postgres:10
 docker run -d --name $PREFIX-server --link $PREFIX-db:db \
-    -p 4063 -p 4064 \
+    -p 4064 \
     -e CONFIG_omero_db_user=postgres \
     -e CONFIG_omero_db_pass=postgres \
     -e CONFIG_omero_db_name=postgres \
