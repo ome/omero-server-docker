@@ -9,10 +9,6 @@
 - src: ome.java
   version: 2.0.3
 
-- name: ome.omego
-  src: https://github.com/joshmoore/ansible-role-omego
-  version: origin/add-future
-
 - src: ome.omero_common
   version: 0.3.2
 
