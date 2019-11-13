@@ -11,5 +11,3 @@
     omero_server_system_uid: 1000
     omero_server_virtualenv: True
     omero_server_python3: True
-    omero_server_python_addons:
-    - future
