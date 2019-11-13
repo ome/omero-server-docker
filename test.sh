@@ -41,6 +41,9 @@ bash test_login.sh
 # Wait a minute to ensure other servers are running
 sleep 60
 # Now that we know the server is up, test Dropbox
-bash test_dropbox.sh
+
+## FIXME: disabling until 5.6.dev1 is included
+## bash test_dropbox.sh
+
 # And Processor (slave-1)
 bash test_processor.sh

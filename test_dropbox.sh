@@ -9,7 +9,7 @@ set -x
 
 OMERO=/opt/omero/server/OMERO.server/bin/omero
 FILENAME=$(date +%Y%m%d-%H%M%S-%N).fake
-SERVER=$(docker port $PREFIX-server 4064)
+SERVER=localhost:4064
 docker exec $PREFIX-server sh -c \
     "mkdir -p /OMERO/DropBox/root && touch /OMERO/DropBox/root/$FILENAME"
 

@@ -11,7 +11,7 @@ OMERO=/opt/omero/server/OMERO.server/bin/omero
 DSNAME=$(date +%Y%m%d-%H%M%S-%N)
 FILENAME=$(date +%Y%m%d-%H%M%S-%N).fake
 SCRIPT=/omero/util_scripts/Dataset_To_Plate.py
-SERVER=$(docker port $PREFIX-server 4064)
+SERVER="localhost:4064"
 
 dataset_id=$(docker exec $PREFIX-server $OMERO obj -q -s $SERVER -u $OMERO_USER -w $OMERO_PASS new Dataset name=$DSNAME | cut -d: -f2)
 

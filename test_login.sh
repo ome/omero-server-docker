@@ -8,7 +8,7 @@ set -x
 # OMERO_USER OMERO_PASS PREFIX
 
 OMERO=/opt/omero/server/OMERO.server/bin/omero
-SERVER=$(docker port $PREFIX-server 4064)
+SERVER="localhost:4064"
 
 # Wait up to 2 mins
 i=0
