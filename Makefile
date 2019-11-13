@@ -21,6 +21,11 @@ usage:
 	@echo "  make VERSION=x.y.z git-push                         #   Push to $(ORIGIN)"
 	@echo "  make VERSION=x.y.z docker-build                     #   Build and tag images for $(REPO) hub repo"
 	@echo "  make VERSION=x.y.z docker-push                      #   Push images to $(REPO) hub repo"
+	@echo " "
+	@echo "  # Dev Release"
+	@echo "  make VERSION=x.y.z git-push                         #   Push to $(ORIGIN)"
+	@echo "  make VERSION=x.y.z docker-build-versions            #   Skips tagging latest"
+	@echo "  make VERSION=x.y.z docker-push-versions             #   Skips pushing latest"
 
 
 git-tag:
