@@ -28,4 +28,5 @@ USER omero-server
 EXPOSE 4063 4064
 VOLUME ["/OMERO", "/opt/omero/server/OMERO.server/var"]
 
+ENV OMERODIR=/opt/omero/server/OMERO.server/
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
