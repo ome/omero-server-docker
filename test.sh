@@ -9,6 +9,7 @@ IMAGE=omero-server:$PREFIX
 CLEAN=${CLEAN:-y}
 
 cleanup() {
+    docker logs $PREFIX-server
     docker rm -f -v $PREFIX-db $PREFIX-server
 }
 
@@ -22,7 +23,7 @@ cleanup || true
 docker build -t $IMAGE  .
 docker run -d --name $PREFIX-db -e POSTGRES_PASSWORD=postgres postgres:10
 docker run -d --name $PREFIX-server --link $PREFIX-db:db \
-    -p 4063:4063 -p 4064:4064 \
+    -p 4064 \
     -e CONFIG_omero_db_user=postgres \
     -e CONFIG_omero_db_pass=postgres \
     -e CONFIG_omero_db_name=postgres \
@@ -40,6 +41,9 @@ bash test_login.sh
 # Wait a minute to ensure other servers are running
 sleep 60
 # Now that we know the server is up, test Dropbox
-bash test_dropbox.sh
+
+## FIXME: disabling until 5.6.dev1 is included
+## bash test_dropbox.sh
+
 # And Processor (slave-1)
 bash test_processor.sh

@@ -21,6 +21,11 @@ usage:
 	@echo "  make VERSION=x.y.z git-push                         #   Push to $(ORIGIN)"
 	@echo "  make VERSION=x.y.z docker-build                     #   Build and tag images for $(REPO) hub repo"
 	@echo "  make VERSION=x.y.z docker-push                      #   Push images to $(REPO) hub repo"
+	@echo " "
+	@echo "  # Dev Release"
+	@echo "  make VERSION=x.y.z git-push                         #   Push to $(ORIGIN)"
+	@echo "  make VERSION=x.y.z docker-build-versions            #   Skips tagging latest"
+	@echo "  make VERSION=x.y.z docker-push-versions             #   Skips pushing latest"
 
 
 git-tag:
@@ -53,29 +58,33 @@ else
 endif
 
 
-docker-build:
+docker-build-versions:
 ifndef VERSION
 	$(error VERSION is undefined)
 endif
 ifndef BUILD
 	$(eval BUILD=0)
 endif
-	docker build -t $(REPO)/omero-server:latest .
-	docker tag $(REPO)/omero-server:latest $(REPO)/omero-server:$(VERSION)-$(BUILD)
-	docker tag $(REPO)/omero-server:latest $(REPO)/omero-server:$(VERSION)
+	docker build -t $(REPO)/omero-server:$(VERSION)-$(BUILD) .
+	docker tag $(REPO)/omero-server:$(VERSION)-$(BUILD) $(REPO)/omero-server:$(VERSION)
 	@MAJOR_MINOR=$(shell echo $(VERSION) | cut -f1-2 -d. );\
-	docker tag $(REPO)/omero-server:latest $(REPO)/omero-server:$$MAJOR_MINOR
+	docker tag $(REPO)/omero-server:$(VERSION)-$(BUILD) $(REPO)/omero-server:$$MAJOR_MINOR
+
+docker-build: docker-build-versions
+	docker tag $(REPO)/omero-server:$(VERSION)-$(BUILD) $(REPO)/omero-server:latest
 
 
-docker-push:
+docker-push-versions:
 ifndef VERSION
 	$(error VERSION is undefined)
 endif
 ifndef BUILD
 	$(eval BUILD=0)
 endif
-	docker push $(REPO)/omero-server:latest
 	docker push $(REPO)/omero-server:$(VERSION)-$(BUILD)
 	docker push $(REPO)/omero-server:$(VERSION)
 	@MAJOR_MINOR=$(shell echo $(VERSION) | cut -f1-2 -d. );\
 	docker push $(REPO)/omero-server:$$MAJOR_MINOR
+
+docker-push: docker-push-versions
+	docker push $(REPO)/omero-server:latest

@@ -6,7 +6,7 @@
 set -eu
 
 omero=/opt/omero/server/OMERO.server/bin/omero
-omego=/opt/omero/omego/bin/omego
+omego=/opt/omero/server/venv3/bin/omego
 cd /opt/omero/server
 
 CONFIG_omero_db_host=${CONFIG_omero_db_host:-}
