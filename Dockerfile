@@ -1,7 +1,7 @@
 FROM centos:centos7
 LABEL maintainer="ome-devel@lists.openmicroscopy.org.uk"
-LABEL org.opencontainers.image.created="unknown"
-LABEL org.opencontainers.image.revision="unknown"
+LABEL org.opencontainers.image.created="2019-11-21T16:29:35Z"
+LABEL org.opencontainers.image.revision="a30659037ef58553cce93e12a8fffcd3fc9d14ac"
 LABEL org.opencontainers.image.source="https://github.com/openmicroscopy/omero-server-docker"
 
 RUN mkdir /opt/setup
