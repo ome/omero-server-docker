@@ -20,7 +20,7 @@ RUN ansible-playbook playbook.yml \
     -e omero_server_omego_additional_args="$OMEGO_ADDITIONAL_ARGS"
 
 RUN curl -L -o /usr/local/bin/dumb-init \
-    https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 && \
+    https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_amd64 && \
     chmod +x /usr/local/bin/dumb-init
 ADD entrypoint.sh /usr/local/bin/
 ADD 50-config.py 60-database.sh 99-run.sh /startup/
