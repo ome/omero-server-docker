@@ -7,7 +7,7 @@ set -x
 # Must be exported by the caller:
 # OMERO_USER OMERO_PASS PREFIX
 
-OMERO=/opt/omero/server/OMERO.server/bin/omero
+OMERO=/opt/omero/server/venv3/bin/omero
 DSNAME=$(date +%Y%m%d-%H%M%S-%N)
 FILENAME=$(date +%Y%m%d-%H%M%S-%N).fake
 SCRIPT=/omero/util_scripts/Dataset_To_Plate.py

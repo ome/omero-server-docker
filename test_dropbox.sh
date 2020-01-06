@@ -7,7 +7,7 @@ set -x
 # Must be exported by the caller:
 # OMERO_USER OMERO_PASS PREFIX
 
-OMERO=/opt/omero/server/OMERO.server/bin/omero
+OMERO=/opt/omero/server/venv3/bin/omero
 FILENAME=$(date +%Y%m%d-%H%M%S-%N).fake
 SERVER=localhost:4064
 docker exec $PREFIX-server sh -c \
