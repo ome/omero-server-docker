@@ -5,7 +5,7 @@
 
 set -eu
 
-omero=/opt/omero/server/OMERO.server/bin/omero
+omero=/opt/omero/server/venv3/bin/omero
 omego=/opt/omero/server/venv3/bin/omego
 cd /opt/omero/server
 
