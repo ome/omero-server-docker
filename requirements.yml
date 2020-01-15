@@ -13,8 +13,7 @@
   version: 0.3.2
 
 - name: ome.omero_server
-  src: https://github.com/ome/ansible-role-omero-server/archive/6617b30a270dc1ca53d8ce1818fb8cbf1857ad3a.tar.gz
-  version: 6617b30a270dc1ca53d8ce1818fb8cbf1857ad3a
+  version: 3.0.0
 
 - src: ome.postgresql
   version: 3.3.1
