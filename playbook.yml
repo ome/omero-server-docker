@@ -9,3 +9,4 @@
     omero_server_virtualenv: True
     omero_server_python3: True
     omero_server_python3_replace_omero: False
+    postgresql_version: "11"
