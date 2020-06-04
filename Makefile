@@ -78,7 +78,7 @@ endif
 
 docker-build: docker-build-versions
 	docker tag $(REPO)/omero-server:$(VERSION)-$(BUILD) $(REPO)/omero-server:latest
-	docker tag $(REPO)/omero-server-standalone:$(VERSION)-$(BUILD) $(REPO)/omero-server-extras:latest
+	docker tag $(REPO)/omero-server-extras:$(VERSION)-$(BUILD) $(REPO)/omero-server-extras:latest
 
 
 docker-push-versions:
