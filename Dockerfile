@@ -1,7 +1,7 @@
 FROM centos:centos7
 LABEL maintainer="ome-devel@lists.openmicroscopy.org.uk"
-LABEL org.opencontainers.image.created="unknown"
-LABEL org.opencontainers.image.revision="unknown"
+LABEL org.opencontainers.image.created="2020-07-16T11:59:30Z"
+LABEL org.opencontainers.image.revision="dac23c589375542404f41d88daa3ea069ef37203"
 LABEL org.opencontainers.image.source="https://github.com/openmicroscopy/omero-server-docker"
 
 RUN mkdir /opt/setup
@@ -12,7 +12,7 @@ RUN yum -y install epel-release \
     && yum -y install ansible sudo \
     && ansible-galaxy install -p /opt/setup/roles -r requirements.yml
 
-ARG OMERO_VERSION=5.6.1
+ARG OMERO_VERSION=5.6.2
 ARG OMEGO_ADDITIONAL_ARGS=
 ENV OMERODIR=/opt/omero/server/OMERO.server/
 RUN ansible-playbook playbook.yml \
