@@ -22,7 +22,7 @@ To run the Docker images start a postgres DB:
 Then run OMERO.server passing the database configuration parameters if they differ from the defaults.
 This example uses the default `postgres` system database for convenience, in practice you may want to create your own database.
 
-    docker run -d --name omero-server --link postgres:db
+    docker run -d --name omero-server --link postgres:db \
         -e CONFIG_omero_db_user=postgres \
         -e CONFIG_omero_db_pass=postgres \
         -e CONFIG_omero_db_name=postgres \
