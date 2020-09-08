@@ -3,8 +3,7 @@
 - src: ome.basedeps
   version: 1.1.0
 
-- name: ome.ice
-  src: https://github.com/ome/ansible-role-ice/archive/efe4e218fe25d39c6e0bdb89570b7cf2d3f799a8.tar.gz
+- src: ome.ice
   version: 4.1.0
 
 - src: ome.java
