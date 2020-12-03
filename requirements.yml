@@ -13,7 +13,7 @@
   version: 0.3.2
 
 - name: ome.omero_server
-  version: 3.0.0
+  version: 3.3.0
 
-- name: ome.postgresql
-  version: 4.0.0
+- name: ome.postgresql_client
+  version: 0.1.2
