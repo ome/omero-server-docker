@@ -9,12 +9,10 @@ from subprocess import call
 from re import sub
 
 
-CONFIG_OMERO = '/opt/omero/server/config/omero-server-config-update.sh'
 OMERO = '/opt/omero/server/venv3/bin/omero'
 
-if os.access(CONFIG_OMERO, os.X_OK):
-    rc = call([CONFIG_OMERO])
-    assert rc == 0
+rc = call([OMERO, 'load', '--glob', '/opt/omero/server/config/*.omero'])
+assert rc == 0
 
 for (k, v) in os.environ.items():
     if k.startswith('CONFIG_'):
