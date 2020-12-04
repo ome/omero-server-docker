@@ -4,6 +4,7 @@
   vars:
     java_versions: ["11"]
     omero_server_database_manage: False
+    omero_server_selfsigned_certificates: True
     omero_server_systemd_setup: False
     omero_server_system_uid: 1000
     omero_server_virtualenv: True
