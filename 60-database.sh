@@ -19,12 +19,13 @@ fi
 DBUSER="${CONFIG_omero_db_user:-omero}"
 DBNAME="${CONFIG_omero_db_name:-omero}"
 DBPASS="${CONFIG_omero_db_pass:-omero}"
+DBPORT="${CONFIG_omero_db_port:-5432}"
 ROOTPASS="${ROOTPASS:-omero}"
 
 export PGPASSWORD="$DBPASS"
 
 i=0
-while ! psql -h "$DBHOST" -U "$DBUSER" "$DBNAME" >/dev/null 2>&1 < /dev/null; do
+while ! psql -h "$DBHOST" -p "$DBPORT" -U "$DBUSER" "$DBNAME" >/dev/null 2>&1 < /dev/null; do
     i=$(($i+1))
     if [ $i -ge 50 ]; then
         echo "$(date) - postgres:5432 still not reachable, giving up"
@@ -35,7 +36,7 @@ while ! psql -h "$DBHOST" -U "$DBUSER" "$DBNAME" >/dev/null 2>&1 < /dev/null; do
 done
 echo "postgres connection established"
 
-psql -w -h "$DBHOST" -U "$DBUSER" "$DBNAME" -c \
+psql -w -h "$DBHOST" -p "$DBPORT" -U "$DBUSER" "$DBNAME" -c \
     "select * from dbpatch" 2> /dev/null && {
     echo "Upgrading database"
     $omego db upgrade --serverdir=OMERO.server
