@@ -36,7 +36,7 @@ while ! psql -h "$DBHOST" -p "$DBPORT" -U "$DBUSER" "$DBNAME" >/dev/null 2>&1 < 
 done
 echo "postgres connection established"
 
-psql -w -h "$DBHOST" -h "$DBPORT" -U "$DBUSER" "$DBNAME" -c \
+psql -w -h "$DBHOST" -p "$DBPORT" -U "$DBUSER" "$DBNAME" -c \
     "select * from dbpatch" 2> /dev/null && {
     echo "Upgrading database"
     $omego db upgrade --serverdir=OMERO.server
