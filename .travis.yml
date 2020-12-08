@@ -1,7 +1,0 @@
-language: python
-sudo: required
-services:
-  - docker
-
-script:
-  - ./test.sh
