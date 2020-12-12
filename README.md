@@ -1,6 +1,8 @@
 OMERO.server Docker
 ===================
 
+[![Actions Status](https://github.com/ome/omero-server-docker/workflows/Build/badge.svg)](https://github.com/ome/omero-server-docker/actions)
+
 A CentOS 7 based Docker image for OMERO.server.
 
 Also see [SUPPORT.md](./SUPPORT.md)
