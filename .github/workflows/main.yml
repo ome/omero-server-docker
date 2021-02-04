@@ -10,15 +10,38 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      name: omero-server
     steps:
       - uses: actions/checkout@v2
       - name: Test
         run: ./test.sh
-      - name: Push to Docker Hub
+      - name: Get prefix
+        id: getprefix
+        run: |
+          if [ ! -z ${{ env.name }} ]; then
+            echo "::set-output name=prefix::${{ github.actor }}/${{ env.name }}:"
+          else
+            echo "::set-output name=prefix::${{ github.repository }}:"
+          fi
+      - name: Get other tags
+        id: gettags
+        uses: manics/action-major-minor-tag-calculator@main
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          prefix: "${{ steps.getprefix.outputs.prefix }}"
+      - name: Set up Docker Buildx
         if: startsWith(github.ref, 'refs/tags')
-        uses: docker/build-push-action@v1
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        if: startsWith(github.ref, 'refs/tags')
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: ${{ github.repository }}
-          tag_with_ref: true
+      - name: Push to Docker Hub
+        if: startsWith(github.ref, 'refs/tags')
+        uses: docker/build-push-action@v2
+        with:
+          tags: ${{ join(fromJson(steps.gettags.outputs.tags)) }}
+          push: true
