@@ -27,14 +27,22 @@ jobs:
           if [ ! -z ${{ env.name }} ]; then
             echo "::set-output name=prefix::${{ github.actor }}/${{ env.name }}:"
           else
-            echo "::set-output name=prefix::${{ github.repository }}:"
+            echo "::set-output name=prefix::${{ github.repository }}/${{ github.event.repository.name }}:"
           fi
-      - name: Get other tags
+      - name: Get tags
         id: gettags
-        uses: manics/action-major-minor-tag-calculator@main
-        with:
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-          prefix: "${{ steps.getprefix.outputs.prefix }}"
+        run: |
+          RE='[^0-9]*\([0-9]*\)[.]\([0-9]*\)[.]\([0-9-]*\)\([0-9A-Za-z-]*\)'
+          base=${GITHUB_REF#tags/*/}
+          MAJOR=`echo $base | sed -e "s#$RE#\1#"`
+          MINOR=`echo $base | sed -e "s#$RE#\2#"`
+          PATCH=`echo $base | sed -e "s#$RE#\3#"`
+          value="${{ steps.getprefix.outputs.prefix }}latest"
+          value="$value,${{ steps.getprefix.outputs.prefix }}$MAJOR"
+          value="$value,${{ steps.getprefix.outputs.prefix }}$MAJOR.$MINOR"
+          value="$value,${{ steps.getprefix.outputs.prefix }}$MAJOR.$MINOR.$PATCH"
+          echo "$value"
+          echo "::set-output name=tags::$value"
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Login to DockerHub
@@ -45,5 +53,5 @@ jobs:
       - name: Push to Docker Hub
         uses: docker/build-push-action@v2
         with:
-          tags: ${{ join(fromJson(steps.gettags.outputs.tags)) }}
+          tags: ${{ steps.gettags.outputs.tags }}
           push: true
