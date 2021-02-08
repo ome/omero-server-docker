@@ -27,7 +27,7 @@ jobs:
           if [ ! -z ${{ env.name }} ]; then
             echo "::set-output name=prefix::${{ github.actor }}/${{ env.name }}:"
           else
-            echo "::set-output name=prefix::${{ github.repository }}/${{ github.event.repository.name }}:"
+            echo "::set-output name=prefix::${{ github.repository }}:"
           fi
       - name: Get tags
         id: gettags
