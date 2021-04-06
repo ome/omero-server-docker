@@ -69,6 +69,8 @@ endif
 	docker tag $(REPO)/omero-server:$(VERSION)-$(BUILD) $(REPO)/omero-server:$(VERSION)
 	@MAJOR_MINOR=$(shell echo $(VERSION) | cut -f1-2 -d. );\
 	docker tag $(REPO)/omero-server:$(VERSION)-$(BUILD) $(REPO)/omero-server:$$MAJOR_MINOR
+	@MAJOR=$(shell echo $(VERSION) | cut -f1 -d. );\
+	docker tag $(REPO)/omero-server:$(VERSION)-$(BUILD) $(REPO)/omero-server:$$MAJOR
 
 docker-build: docker-build-versions
 	docker tag $(REPO)/omero-server:$(VERSION)-$(BUILD) $(REPO)/omero-server:latest
@@ -85,6 +87,8 @@ endif
 	docker push $(REPO)/omero-server:$(VERSION)
 	@MAJOR_MINOR=$(shell echo $(VERSION) | cut -f1-2 -d. );\
 	docker push $(REPO)/omero-server:$$MAJOR_MINOR
+	@MAJOR=$(shell echo $(VERSION) | cut -f1 -d. );\
+	docker push $(REPO)/omero-server:$$MAJOR
 
 docker-push: docker-push-versions
 	docker push $(REPO)/omero-server:latest
