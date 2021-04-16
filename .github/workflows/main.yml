@@ -31,7 +31,7 @@ jobs:
           fi
       - name: Get other tags
         id: gettags
-        uses: manics/action-major-minor-tag-calculator@main
+        uses: jupyterhub/action-major-minor-tag-calculator@v1.1.0
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           prefix: "${{ steps.getprefix.outputs.prefix }}"
