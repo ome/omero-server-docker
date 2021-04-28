@@ -15,10 +15,8 @@ SERVER="localhost:4064"
 
 dataset_id=$(docker exec $PREFIX-server $OMERO obj -q -s $SERVER -u $OMERO_USER -w $OMERO_PASS new Dataset name=$DSNAME | cut -d: -f2)
 
-# Fixed in 5.5.0 https://github.com/openmicroscopy/openmicroscopy/pull/5949
-BUGFIX_ARGS="--skip upgrade"
 docker exec $PREFIX-server sh -c \
-    "touch /tmp/$FILENAME && $OMERO import $BUGFIX_ARGS -d $dataset_id /tmp/$FILENAME"
+    "touch /tmp/$FILENAME && $OMERO import -d $dataset_id /tmp/$FILENAME"
 
 docker exec $PREFIX-server $OMERO script launch $SCRIPT IDs=$dataset_id
 echo "Completed with code $?"
