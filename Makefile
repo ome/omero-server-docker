@@ -65,15 +65,22 @@ endif
 ifndef BUILD
 	$(eval BUILD=0)
 endif
-	docker build -t $(REPO)/omero-server:$(VERSION)-$(BUILD) .
+	docker build $(BUILDARGS) -t $(REPO)/omero-server:$(VERSION)-$(BUILD) .
 	docker tag $(REPO)/omero-server:$(VERSION)-$(BUILD) $(REPO)/omero-server:$(VERSION)
 	@MAJOR_MINOR=$(shell echo $(VERSION) | cut -f1-2 -d. );\
 	docker tag $(REPO)/omero-server:$(VERSION)-$(BUILD) $(REPO)/omero-server:$$MAJOR_MINOR
 	@MAJOR=$(shell echo $(VERSION) | cut -f1 -d. );\
 	docker tag $(REPO)/omero-server:$(VERSION)-$(BUILD) $(REPO)/omero-server:$$MAJOR
 
+	docker build --build-arg=PARENT_IMAGE=$(REPO)/omero-server:$(VERSION) -t $(REPO)/omero-server-extras:$(VERSION)-$(BUILD) extras
+	docker tag $(REPO)/omero-server-extras:$(VERSION)-$(BUILD) $(REPO)/omero-server-extras:$(VERSION)
+	@MAJOR_MINOR=$(shell echo $(VERSION) | cut -f1-2 -d. );\
+	docker tag $(REPO)/omero-server-extras:$(VERSION)-$(BUILD) $(REPO)/omero-server-extras:$$MAJOR_MINOR
+
+
 docker-build: docker-build-versions
 	docker tag $(REPO)/omero-server:$(VERSION)-$(BUILD) $(REPO)/omero-server:latest
+	docker tag $(REPO)/omero-server-extras:$(VERSION)-$(BUILD) $(REPO)/omero-server-extras:latest
 
 
 docker-push-versions:
@@ -90,5 +97,11 @@ endif
 	@MAJOR=$(shell echo $(VERSION) | cut -f1 -d. );\
 	docker push $(REPO)/omero-server:$$MAJOR
 
+	docker push $(REPO)/omero-server-extras:$(VERSION)-$(BUILD)
+	docker push $(REPO)/omero-server-extras:$(VERSION)
+	@MAJOR_MINOR=$(shell echo $(VERSION) | cut -f1-2 -d. );\
+	docker push $(REPO)/omero-server-extras:$$MAJOR_MINOR
+
 docker-push: docker-push-versions
 	docker push $(REPO)/omero-server:latest
+	docker push $(REPO)/omero-server-extras:latest
