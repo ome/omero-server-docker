@@ -1,19 +1,20 @@
 # External Ansible roles required by this repository
 
-- src: ome.basedeps
+- name: ome.basedeps
   version: 1.2.0
 
-- src: ome.ice
+- name: ome.ice
   version: 4.3.0
 
-- src: ome.java
+- name: ome.java
   version: 2.1.0
 
-- src: ome.omero_common
+- name: ome.omero_common
   version: 0.3.4
 
 - name: ome.omero_server
-  version: 4.0.1
+  src: https://github.com/ome/ansible-role-omero-server/archive/57c50c79c3f04007bfb9edd747e61a82fb808b7c.tar.gz
+  version: 4.0.2
 
 - name: ome.postgresql_client
   version: 0.1.2
