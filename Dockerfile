@@ -9,7 +9,7 @@ WORKDIR /opt/setup
 ADD playbook.yml requirements.yml /opt/setup/
 
 RUN yum -y install epel-release \
-    && yum -y install ansible sudo \
+    && yum -y install ansible sudo ca-certificates \
     && ansible-galaxy install -p /opt/setup/roles -r requirements.yml
 
 ARG OMERO_VERSION=5.6.3
