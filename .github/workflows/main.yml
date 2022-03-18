@@ -21,20 +21,12 @@ jobs:
     env:
       name: openmicroscopy/omero-server
     steps:
-      - name: Get prefix
-        id: getprefix
-        run: |
-          if [ ! -z ${{ env.name }} ]; then
-            echo "::set-output name=prefix::${{ env.name }}:"
-          else
-            echo "::set-output name=prefix::${{ github.repository }}:"
-          fi
       - name: Get other tags
         id: gettags
         uses: jupyterhub/action-major-minor-tag-calculator@v1.1.0
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-          prefix: "${{ steps.getprefix.outputs.prefix }}"
+          prefix: "${{ env.name }}:"
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Login to DockerHub
