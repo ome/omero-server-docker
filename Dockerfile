@@ -1,4 +1,4 @@
-FROM centos:centos7
+FROM centos:centos7.9.2009
 LABEL maintainer="ome-devel@lists.openmicroscopy.org.uk"
 LABEL org.opencontainers.image.created="unknown"
 LABEL org.opencontainers.image.revision="unknown"
