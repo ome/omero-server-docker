@@ -10,14 +10,18 @@ ADD playbook.yml requirements.yml /opt/setup/
 
 RUN yum -y install epel-release \
     && yum -y install ansible sudo ca-certificates \
-    && ansible-galaxy install -p /opt/setup/roles -r requirements.yml
+    && ansible-galaxy install -p /opt/setup/roles -r requirements.yml \
+    && yum -y clean all \
+    && rm -fr /var/cache
 
 ARG OMERO_VERSION=5.6.4
 ARG OMEGO_ADDITIONAL_ARGS=
 ENV OMERODIR=/opt/omero/server/OMERO.server/
 RUN ansible-playbook playbook.yml \
     -e omero_server_release=$OMERO_VERSION \
-    -e omero_server_omego_additional_args="$OMEGO_ADDITIONAL_ARGS"
+    -e omero_server_omego_additional_args="$OMEGO_ADDITIONAL_ARGS" \
+    && yum -y clean all \
+    && rm -fr /var/cache
 
 RUN curl -L -o /usr/local/bin/dumb-init \
     https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_amd64 && \
