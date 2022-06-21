@@ -1,4 +1,4 @@
-FROM centos:centos7.9.2009
+FROM centos:centos7.9.2009@sha256:dead07b4d8ed7e29e98de0f4504d87e8880d4347859d839686a31da35a3b532f
 LABEL maintainer="ome-devel@lists.openmicroscopy.org.uk"
 LABEL org.opencontainers.image.created="unknown"
 LABEL org.opencontainers.image.revision="unknown"
