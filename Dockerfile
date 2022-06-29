@@ -14,7 +14,7 @@ RUN yum -y install epel-release \
     && yum -y clean all \
     && rm -fr /var/cache
 
-ARG OMERO_VERSION=5.6.4
+ARG OMERO_VERSION=5.6.5
 ARG OMEGO_ADDITIONAL_ARGS=
 ENV OMERODIR=/opt/omero/server/OMERO.server/
 RUN ansible-playbook playbook.yml \
