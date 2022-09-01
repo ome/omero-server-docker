@@ -1,6 +1,9 @@
 - hosts: localhost
   roles:
   - role: ome.omero_server
+    omero_server_python_addons:
+        - "reportlab<3.6"
+        - markdown
   vars:
     java_versions: ["11"]
     omero_server_database_manage: False
