@@ -25,9 +25,9 @@ jobs:
         id: getprefix
         run: |
           if [ ! -z ${{ env.name }} ]; then
-            echo "::set-output name=prefix::${{ env.name }}:"
+            echo "prefix=${{ env.name }}:" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=prefix::${{ github.repository }}:"
+            echo "prefix=${{ github.repository }}:" >> $GITHUB_OUTPUT
           fi
       - name: Get other tags
         id: gettags
