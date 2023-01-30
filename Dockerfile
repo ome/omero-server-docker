@@ -4,6 +4,8 @@ LABEL org.opencontainers.image.created="unknown"
 LABEL org.opencontainers.image.revision="unknown"
 LABEL org.opencontainers.image.source="https://github.com/openmicroscopy/omero-server-docker"
 
+ENV LANG en_US.utf-8
+
 RUN mkdir /opt/setup
 WORKDIR /opt/setup
 ADD playbook.yml requirements.yml /opt/setup/
