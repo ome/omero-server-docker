@@ -34,8 +34,6 @@ ifndef VERSION
 endif
 
 	perl -i -pe 's/OMERO_VERSION=(\S+)/OMERO_VERSION=$(VERSION)/' Dockerfile
-	perl -i -pe 's/(org.opencontainers.image.created=)"([^"]+)"/$$1"$(RELEASE)"/' Dockerfile
-	perl -i -pe 's/(org.opencontainers.image.revision=)"([^"]+)"/$$1"$(COMMIT)"/' Dockerfile
 
 ifndef BUILD
 	git commit -a -m "Bump OMERO_VERSION to $(VERSION)"
