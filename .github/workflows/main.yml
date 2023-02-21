@@ -26,7 +26,7 @@ jobs:
         uses: jupyterhub/action-major-minor-tag-calculator@v2
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-          prefix: "${{ env.name }}"
+          prefix: "${{ env.name }}:"
       - name: Docker metadata
         id: meta
         uses: docker/metadata-action@v4
@@ -40,7 +40,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Push to Docker Hub
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v4
         with:
           tags: ${{ join(fromJson(steps.gettags.outputs.tags)) }}
           labels: ${{ steps.meta.outputs.labels }}
