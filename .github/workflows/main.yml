@@ -43,4 +43,5 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           tags: ${{ join(fromJson(steps.gettags.outputs.tags)) }}
+          labels: ${{ steps.meta.outputs.labels }}
           push: true
