@@ -98,5 +98,3 @@ Running without links
 ---------------------
 
 As an alternative to running with `--link` the address of the database can be specified using the variable `CONFIG_omero_db_host`
-
-
