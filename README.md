@@ -33,6 +33,14 @@ This example uses the default `postgres` system database for convenience, in pra
         -p 4063:4063 -p 4064:4064 \
         openmicroscopy/omero-server
 
+Since the Docker container is based on CentOS7, there might be problems when connecting with clients which require high standards for the Diffie-Hellman
+key exchange algorithms for secure communication with the OMERO server. While this key-exchange algorithm is disabled on the OMERO side, if it is 
+advertised it can lead to client errors (e.g. omero-py>=5.13.0), which will fail to connect to OMERO because of a dh-key error. To prevent this, 
+it might be necessary to remove Diffie-Hellmann key exchange from the IceSSL configuration. This can be done by adding the following line to the 
+`docker run` command or setting the environment variable in the compose file or a configuration file (see below!):
+
+	-e CONFIG_omero_glacier2_iceSSL_Ciphers="HIGH:!DH"
+
 
 Configuration variables
 -----------------------
@@ -90,3 +98,5 @@ Running without links
 ---------------------
 
 As an alternative to running with `--link` the address of the database can be specified using the variable `CONFIG_omero_db_host`
+
+
