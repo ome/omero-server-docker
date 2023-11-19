@@ -1,6 +1,6 @@
 - hosts: localhost
   roles:
-  - role: ome.omero_server
+  - role: khaledk2.omero_server
   vars:
     java_versions: ["11"]
     omero_server_database_manage: False

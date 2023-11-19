@@ -1,28 +1,36 @@
-FROM ubuntu:22.04
+FROM rockylinux:9
 LABEL maintainer="ome-devel@lists.openmicroscopy.org.uk"
 
-ENV LANG en_US.utf-8
-ENV DEBIAN_FRONTEND=noninteractive
+RUN dnf -y install epel-release
+RUN dnf -y update
+RUN dnf install -y glibc-langpack-en
 
+ENV LANG en_US.utf-8
+ENV RHEL_FRONTEND=noninteractive
 RUN mkdir /opt/setup
 WORKDIR /opt/setup
 ADD playbook.yml requirements.yml /opt/setup/
 
-RUN apt update\
-    && apt install -y ansible sudo ca-certificates dumb-init \
-    && ansible-galaxy install -p /opt/setup/roles -r requirements.yml \
-    && apt -y autoclean autoremove \
-    && rm -fr /var/lib/apt/lists/* /tmp/*
+RUN dnf install -y ansible-core sudo ca-certificates
+RUN ansible-galaxy install -p /opt/setup/roles -r requirements.yml
+RUN dnf -y clean all
+#RUN dnf -y autoremove
+RUN rm -fr /var/lib/apt/lists/* /tmp/*
 
 ARG OMERO_VERSION=5.6.9
 ARG OMEGO_ADDITIONAL_ARGS=
-ENV OMERODIR=/opt/omero/server/OMERO.server/
+ENV OMERODIR=/opt/omero/server/OMERO.server
 
-RUN ansible-playbook playbook.yml \
+RUN ansible-playbook playbook.yml -vvv -e 'ansible_python_interpreter=/usr/bin/python3'\
     -e omero_server_release=$OMERO_VERSION \
-    -e omero_server_omego_additional_args="$OMEGO_ADDITIONAL_ARGS" \
-    && apt -y autoclean autoremove \
-    && rm -fr /var/lib/apt/lists/* /tmp/*
+    -e omero_server_omego_additional_args="$OMEGO_ADDITIONAL_ARGS"
+
+RUN dnf -y clean all
+RUN rm -fr /var/lib/apt/lists/* /tmp/*
+
+RUN curl -L -o /usr/local/bin/dumb-init \
+    https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64 && \
+    chmod +x /usr/local/bin/dumb-init
 
 ADD entrypoint.sh /usr/local/bin/
 ADD 50-config.py 60-database.sh 99-run.sh /startup/
