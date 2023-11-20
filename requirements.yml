@@ -1,2 +1,2 @@
 # External Ansible roles required by this repository
-- name: khaledk2.omero_server
+- name: ome.omero_server
