@@ -14,7 +14,6 @@ ADD playbook.yml requirements.yml /opt/setup/
 RUN dnf install -y ansible-core sudo ca-certificates
 RUN ansible-galaxy install -p /opt/setup/roles -r requirements.yml
 RUN dnf -y clean all
-#RUN dnf -y autoremove
 RUN rm -fr /var/cache
 
 ARG OMERO_VERSION=5.6.9
