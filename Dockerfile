@@ -29,11 +29,6 @@ RUN ansible-playbook playbook.yml -vvv -e 'ansible_python_interpreter=/usr/bin/p
 RUN dnf -y clean all
 RUN rm -fr /var/cache
 
-
-RUN dnf install -y https://dl.rockylinux.org/pub/rocky/9/BaseOS/aarch64/os/Packages/b/bzip2-libs-1.0.8-8.el9.aarch64.rpm
-RUN ln -s  /usr/lib64/libbz2.so.1.0.8  /usr/lib64/libbz2.so.1.0
-
-
 WORKDIR /opt
 
 RUN source  omero/server/venv3/bin/activate
