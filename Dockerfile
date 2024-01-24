@@ -33,7 +33,7 @@ WORKDIR /opt
 
 RUN source  omero/server/venv3/bin/activate
 
-RUN dnf install -y https://dl.fedoraproject.org/pub/epel/8/Everything/aarch64/Packages/d/dumb-init-1.2.5-7.el8.aarch64.rpm
+RUN dnf install -y dumb-init
 
 ADD entrypoint.sh /usr/bin/
 ADD 50-config.py 60-database.sh 99-run.sh /startup/
