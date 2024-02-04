@@ -33,7 +33,7 @@ RUN curl -L -o /usr/local/bin/dumb-init \
     chmod +x /usr/local/bin/dumb-init
 
 ADD entrypoint.sh /usr/local/bin/
-ADD 50-config.py 60-database.sh 99-run.sh /startup/
+ADD 50-config.py 60-database.sh 90-public.sh 99-run.sh /startup/
 
 USER omero-server
 EXPOSE 4063 4064
