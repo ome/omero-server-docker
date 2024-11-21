@@ -17,7 +17,7 @@ RUN ansible-galaxy install -p /opt/setup/roles -r requirements.yml
 RUN dnf -y clean all
 RUN rm -fr /var/cache
 
-ARG OMERO_VERSION=5.6.13
+ARG OMERO_VERSION=5.6.14
 ARG OMEGO_ADDITIONAL_ARGS=
 ENV OMERODIR=/opt/omero/server/OMERO.server
 
