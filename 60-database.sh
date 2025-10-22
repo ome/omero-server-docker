@@ -28,10 +28,10 @@ i=0
 while ! psql -h "$DBHOST" -p "$DBPORT" -U "$DBUSER" "$DBNAME" >/dev/null 2>&1 < /dev/null; do
     i=$(($i+1))
     if [ $i -ge 50 ]; then
-        echo "$(date) - postgres:5432 still not reachable, giving up"
+        echo "$(date) - ${DBHOST}:${DBPORT} still not reachable, giving up"
         exit 1
     fi
-    echo "$(date) - waiting for postgres:5432..."
+    echo "$(date) - waiting for ${DBHOST}:${DBPORT}..."
     sleep 1
 done
 echo "postgres connection established"
