@@ -1,2 +1,3 @@
 # External Ansible roles required by this repository
+- name: ome.postgresql
 - name: ome.omero_server

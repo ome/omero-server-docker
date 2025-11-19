@@ -30,14 +30,14 @@ docker run -d --name $PREFIX-server --link $PREFIX-db:db \
     -e CONFIG_omero_db_pass=postgres \
     -e CONFIG_omero_db_name=postgres \
     -e CONFIG_custom_property_fromenv=fromenv \
-    -e ROOTPASS=omero-root-password \
+    -e ROOTPASS=omero \
     -v $PWD/test-config/config.omero:/opt/omero/server/config/config.omero:ro \
     $IMAGE
 
 # Smoke tests
 
 export OMERO_USER=root
-export OMERO_PASS=omero-root-password
+export OMERO_PASS=omero
 export PREFIX
 
 # Login to server
