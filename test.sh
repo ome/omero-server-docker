@@ -47,7 +47,7 @@ bash test_login.sh
 bash test_config.sh
 
 # Wait a minute to ensure other servers are running
-sleep 60
+sleep 360
 # Now that we know the server is up, test Dropbox
 
 bash test_dropbox.sh
