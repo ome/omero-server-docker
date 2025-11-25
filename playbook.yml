@@ -1,6 +1,7 @@
 - hosts: localhost
   roles:
   - role: ome.omero_server
+    python_version: "3.11"
     omero_server_python_addons:
         - reportlab
         - markdown
