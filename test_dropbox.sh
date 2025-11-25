@@ -35,5 +35,4 @@ while [ $i -lt 60 ]; do
 done
 
 echo "Failed to find image"
-echo "The test for Dropbox status has failed."
-# exit 2
+exit 2
