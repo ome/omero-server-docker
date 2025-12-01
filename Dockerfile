@@ -1,4 +1,4 @@
-FROM rockylinux:9
+FROM rockylinux:9.3
 LABEL maintainer="ome-devel@lists.openmicroscopy.org.uk"
 
 RUN dnf -y install epel-release
@@ -14,6 +14,8 @@ ADD playbook.yml requirements.yml /opt/setup/
 
 RUN dnf install -y ansible-core sudo ca-certificates
 RUN ansible-galaxy install -p /opt/setup/roles -r requirements.yml
+
+
 RUN dnf -y clean all
 RUN rm -fr /var/cache
 
@@ -28,12 +30,15 @@ RUN ansible-playbook playbook.yml -vvv -e 'ansible_python_interpreter=/usr/bin/p
 RUN dnf -y clean all
 RUN rm -fr /var/cache
 
-RUN curl -L -o /usr/local/bin/dumb-init \
-    https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64 && \
-    chmod +x /usr/local/bin/dumb-init
+WORKDIR /opt
 
-ADD entrypoint.sh /usr/local/bin/
+RUN source  omero/server/venv3/bin/activate
+
+RUN dnf install -y dumb-init
+
+ADD entrypoint.sh /usr/bin/
 ADD 50-config.py 60-database.sh 99-run.sh /startup/
+
 
 USER omero-server
 EXPOSE 4063 4064
@@ -41,4 +46,5 @@ ENV PATH=$PATH:/opt/ice/bin
 
 VOLUME ["/OMERO", "/opt/omero/server/OMERO.server/var"]
 
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+ENTRYPOINT ["/usr/bin/entrypoint.sh"]
