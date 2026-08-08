@@ -54,3 +54,6 @@ bash test_dropbox.sh
 
 # And Processor (slave-1)
 bash test_processor.sh
+
+# Check Figure_To_Pdf.py script is available
+bash test_figure_script.sh

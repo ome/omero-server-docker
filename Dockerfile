@@ -28,6 +28,11 @@ RUN ansible-playbook playbook.yml -vvv -e 'ansible_python_interpreter=/usr/bin/p
 RUN dnf -y clean all
 RUN rm -fr /var/cache
 
+ARG OMERO_FIGURE_VERSION=v7.4.1
+RUN mkdir -p $OMERODIR/lib/scripts/omero/figure_scripts && \
+    curl -fsSL -o $OMERODIR/lib/scripts/omero/figure_scripts/Figure_To_Pdf.py \
+    https://raw.githubusercontent.com/ome/omero-figure/$OMERO_FIGURE_VERSION/omero_figure/scripts/omero/figure_scripts/Figure_To_Pdf.py
+
 RUN curl -L -o /usr/local/bin/dumb-init \
     https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64 && \
     chmod +x /usr/local/bin/dumb-init
