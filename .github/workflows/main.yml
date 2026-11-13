@@ -1,5 +1,6 @@
 ---
-name: Build
+name: Build-x86_64
+run-name: Build on x86_64
 
 on: 
   push:

@@ -1,2 +1,4 @@
 # External Ansible roles required by this repository
 - name: ome.omero_server
+  src: https://github.com/khaledk2/ansible-role-omero-server/
+  version: aarch64_josh
